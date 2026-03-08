@@ -4,363 +4,120 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ORO Leads</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #0D0D0D; color: #E0E0E0; font-family: 'DM Sans', sans-serif; }
-    textarea { font-family: 'DM Mono', monospace; }
-    select option { background: #1A1A1A; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 3px; }
-
-    /* Password screen */
-    #password-screen {
-      position: fixed; inset: 0; background: #0D0D0D;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999; flex-direction: column; gap: 24px;
-    }
-    #password-screen h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px; color: #F5F0E8; letter-spacing: -0.02em;
-    }
-    #password-screen p { font-size: 13px; color: #424242; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; }
-    #password-screen input {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px; padding: 12px 20px;
-      color: #F5F0E8; font-size: 15px; font-family: 'DM Mono', monospace;
-      outline: none; text-align: center; width: 260px;
-      letter-spacing: 0.2em;
-    }
-    #password-screen input:focus { border-color: rgba(255,255,255,0.25); }
-    #password-screen button {
-      background: #F5F0E8; color: #0D0D0D;
-      border: none; border-radius: 8px;
-      padding: 12px 32px; font-size: 13px;
-      font-family: 'DM Sans', sans-serif; font-weight: 500;
-      cursor: pointer; width: 260px;
-    }
-    #password-screen .error { color: #EF9A9A; font-size: 12px; font-family: 'DM Mono', monospace; }
-    #app { display: none; }
-    #app.visible { display: block; }
+    :root { --oro-dark:#1C3D3A; --oro-mid:#2C5F5A; --oro-light:#E8F0EF; --oro-accent:#3A7A73; --border:#D4DFDE; --text:#1C3D3A; --text-soft:#6B8C89; --text-muted:#9FBFBB; --bg:#F7F9F9; --white:#FFFFFF; }
+    body { background: var(--bg); color: var(--text); font-family: 'Source Sans 3', sans-serif; min-height: 100vh; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    #pw-screen { position: fixed; inset: 0; background: var(--white); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 28px; }
+    .pw-logo { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--oro-dark); letter-spacing: -0.02em; }
+    .pw-sub  { font-size: 11px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-top: -20px; }
+    #pw-screen input { border: 1px solid var(--border); border-radius: 4px; padding: 12px 20px; font-size: 14px; font-family: 'Source Sans 3', sans-serif; outline: none; text-align: center; width: 280px; color: var(--text); background: var(--white); letter-spacing: 0.15em; }
+    #pw-screen input:focus { border-color: var(--oro-accent); }
+    #pw-screen button { background: var(--oro-dark); color: #fff; border: none; border-radius: 4px; padding: 12px 0; font-size: 13px; font-family: 'Source Sans 3', sans-serif; font-weight: 500; cursor: pointer; width: 280px; letter-spacing: 0.08em; transition: background 0.2s; }
+    #pw-screen button:hover { background: var(--oro-mid); }
+    .pw-error { color: #C0392B; font-size: 12px; display: none; }
+    .pw-note  { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
+    #app { display: none; } #app.visible { display: block; }
+    .header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo-wrap { display: flex; align-items: center; gap: 16px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--oro-dark); letter-spacing: -0.01em; }
+    .logo-divider { width: 1px; height: 20px; background: var(--border); }
+    .logo-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .lead-count-badge { background: var(--oro-light); color: var(--oro-dark); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
+    .paste-zone { background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 40px; }
+    .paste-inner { max-width: 900px; display: flex; gap: 14px; align-items: flex-end; }
+    .paste-field-wrap { flex: 1; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); transition: border-color 0.2s; overflow: hidden; }
+    .paste-field-wrap:focus-within { border-color: var(--oro-accent); background: var(--white); }
+    .paste-label-inner { padding: 8px 14px 0; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+    #paste-input { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-size: 13px; font-family: 'Source Sans 3', sans-serif; line-height: 1.6; resize: none; padding: 4px 14px 10px; min-height: 44px; max-height: 140px; overflow-y: auto; }
+    #paste-input::placeholder { color: var(--text-muted); }
+    .paste-controls { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+    .ansvarlig-select { border: 1px solid var(--border); border-radius: 4px; padding: 7px 10px; font-size: 12px; font-family: 'Source Sans 3', sans-serif; color: var(--text-soft); background: var(--white); outline: none; cursor: pointer; min-width: 160px; }
+    .parse-btn { background: var(--oro-dark); color: #fff; border: none; border-radius: 4px; padding: 9px 22px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; white-space: nowrap; min-width: 160px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .parse-btn:hover:not(:disabled) { background: var(--oro-mid); } .parse-btn:disabled { opacity: 0.4; cursor: default; }
+    .parse-error { font-size: 11px; color: #C0392B; text-align: right; min-height: 14px; }
+    .main { padding: 28px 40px; max-width: 940px; }
+    .filters { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+    .filter-btn { border: 1px solid var(--border); border-radius: 3px; padding: 5px 14px; font-size: 12px; font-family: 'Source Sans 3', sans-serif; cursor: pointer; transition: all 0.15s; background: var(--white); color: var(--text-soft); }
+    .filter-btn:hover { border-color: var(--oro-accent); color: var(--oro-dark); }
+    .lead-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 20px 24px; margin-bottom: 8px; transition: box-shadow 0.2s, border-color 0.2s; }
+    .lead-card:hover { box-shadow: 0 2px 12px rgba(28,61,58,0.08); border-color: #BDD0CE; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-left { flex: 1; } .card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 16px; }
+    .card-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
+    .card-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--oro-dark); font-weight: 600; }
+    .source-badge { border-radius: 2px; padding: 2px 8px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
+    .card-sub { font-size: 13px; color: var(--text-soft); margin-bottom: 8px; }
+    .card-meta { display: flex; gap: 18px; flex-wrap: wrap; } .card-meta span { font-size: 12px; color: var(--text-soft); }
+    .card-date { font-size: 11px; color: var(--text-muted); }
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--bg); }
+    .card-ansvarlig { font-size: 12px; color: var(--text-muted); } .card-actions { display: flex; gap: 12px; }
+    .btn-slett { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px; transition: color 0.15s; font-family: 'Source Sans 3', sans-serif; }
+    .btn-slett:hover { color: #C0392B; }
+    .melding-box { margin-top: 12px; padding: 12px 16px; background: var(--bg); border-radius: 3px; border-left: 2px solid var(--border); font-size: 13px; color: var(--text-soft); line-height: 1.6; overflow: hidden; transition: max-height 0.3s ease; cursor: pointer; }
+    .status-btn { border-radius: 3px; padding: 4px 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: all 0.15s; border: 1px solid transparent; font-family: 'Source Sans 3', sans-serif; }
+    .status-dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+    .empty-state { text-align: center; padding: 70px 0; } .empty-icon { font-size: 32px; margin-bottom: 14px; color: var(--border); }
+    .empty-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text-soft); margin-bottom: 6px; }
+    .empty-sub { font-size: 13px; color: var(--text-muted); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
   </style>
 </head>
 <body>
-
-<!-- Password screen -->
-<div id="password-screen">
-  <div style="text-align:center">
-    <h1>ORO</h1>
-    <p style="margin-top:6px">LEADS DASHBOARD</p>
-  </div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+<div id="pw-screen">
+  <div class="pw-logo">ORO</div>
+  <div class="pw-sub">Leads Dashboard</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
     <input type="password" id="pw-input" placeholder="Passord" onkeydown="if(event.key==='Enter')checkPw()" />
-    <p id="pw-error" class="error" style="display:none">Feil passord. Prøv igjen.</p>
+    <p id="pw-error" class="pw-error">Feil passord – prøv igjen</p>
     <button onclick="checkPw()">Logg inn</button>
   </div>
-  <p>Kun for ORO-ansatte</p>
+  <p class="pw-note">Kun for ORO-ansatte</p>
 </div>
-
-<div id="app"></div>
-
+<div id="app">
+  <div class="header">
+    <div class="logo-wrap"><span class="logo">ORO</span><div class="logo-divider"></div><span class="logo-sub">Leads</span></div>
+    <div class="header-right"><span class="lead-count-badge" id="lead-count">0 leads</span></div>
+  </div>
+  <div class="paste-zone">
+    <div class="paste-inner">
+      <div class="paste-field-wrap">
+        <div class="paste-label-inner">Lim inn e-post fra FINN.no, NE.meet eller annen kilde</div>
+        <textarea id="paste-input" rows="2" placeholder="Kopier e-postteksten og lim inn her …"></textarea>
+      </div>
+      <div class="paste-controls">
+        <select class="ansvarlig-select" id="ansvarlig-select">
+          <option>Edward Gundersen</option><option>Gunnar Vestby</option><option>Christoffer Oterholt</option>
+          <option>Jørgen Anker-Rasch</option><option>Alfred Hegnar</option><option>Mathias Brandt-Kjelsen</option>
+          <option>Nikolai Staubo</option><option>Anders Brustad-Nilsen</option><option>Kristian Bartnes</option><option>Anders Aasand</option>
+        </select>
+        <button class="parse-btn" id="parse-btn" onclick="parseEmail()" disabled>Legg til lead</button>
+        <div class="parse-error" id="parse-error"></div>
+      </div>
+    </div>
+  </div>
+  <div class="main"><div class="filters" id="filters"></div><div id="lead-list"></div></div>
+</div>
 <script>
-  // ⚠️ ENDRE DETTE PASSORDET før du laster opp!
-  const PASSORD = "oro2024";
-
-  function checkPw() {
-    const val = document.getElementById('pw-input').value;
-    if (val === PASSORD) {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('app').classList.add('visible');
-      sessionStorage.setItem('oro-auth', '1');
-    } else {
-      document.getElementById('pw-error').style.display = 'block';
-      document.getElementById('pw-input').value = '';
-    }
-  }
-
-  if (sessionStorage.getItem('oro-auth') === '1') {
-    document.getElementById('password-screen').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-  }
-</script>
-
-<script type="text/babel">
-const { useState, useEffect } = React;
-
-const STORAGE_KEY = "oro-leads-v1";
-const STATUS_CONFIG = {
-  "Ny":        { color: "#4FC3F7", bg: "rgba(79,195,247,0.12)",  dot: "#4FC3F7" },
-  "Kontaktet": { color: "#FFB74D", bg: "rgba(255,183,77,0.12)",  dot: "#FFB74D" },
-  "I prosess": { color: "#CE93D8", bg: "rgba(206,147,216,0.12)", dot: "#CE93D8" },
-  "Vunnet":    { color: "#81C784", bg: "rgba(129,199,132,0.12)", dot: "#81C784" },
-  "Tapt":      { color: "#EF9A9A", bg: "rgba(239,154,154,0.12)", dot: "#EF9A9A" },
-};
-const ANSATTE = ["Edward Gundersen","Knut","Sara","Thomas","Maria","Annen ansatt"];
-
-function StatusBadge({ status, onClick }) {
-  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG["Ny"];
-  return (
-    <button onClick={onClick} style={{
-      background: cfg.bg, color: cfg.color,
-      border: `1px solid ${cfg.color}40`, borderRadius: "20px",
-      padding: "3px 10px", fontSize: "11px",
-      fontFamily: "'DM Mono', monospace", letterSpacing: "0.05em",
-      cursor: "pointer", display: "flex", alignItems: "center", gap: "5px",
-      transition: "all 0.2s",
-    }}>
-      <span style={{ width:6, height:6, borderRadius:"50%", background:cfg.dot, display:"inline-block" }} />
-      {status}
-    </button>
-  );
-}
-
-function LeadCard({ lead, onStatusChange, onDelete }) {
-  const [expanded, setExpanded] = useState(false);
-  const statuses = Object.keys(STATUS_CONFIG);
-  const nextStatus = () => onStatusChange((statuses.indexOf(lead.status) + 1) % statuses.length);
-
-  return (
-    <div style={{
-      background: "rgba(255,255,255,0.03)",
-      border: "1px solid rgba(255,255,255,0.08)",
-      borderRadius: "12px", padding: "20px", marginBottom: "12px",
-      transition: "background 0.2s",
-    }}
-      onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.055)"}
-      onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.03)"}
-    >
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-        <div style={{ flex:1 }}>
-          <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px", flexWrap:"wrap" }}>
-            <span style={{ fontFamily:"'Playfair Display',serif", fontSize:"16px", color:"#F5F0E8", fontWeight:600 }}>
-              {lead.navn || "Ukjent navn"}
-            </span>
-            <span style={{
-              background: lead.kilde==="FINN.no" ? "rgba(255,60,0,0.15)" : "rgba(0,120,255,0.15)",
-              color: lead.kilde==="FINN.no" ? "#FF6B35" : "#60A5FA",
-              border: `1px solid ${lead.kilde==="FINN.no" ? "#FF6B3540" : "#60A5FA40"}`,
-              borderRadius:"4px", padding:"2px 8px", fontSize:"10px",
-              fontFamily:"'DM Mono',monospace", letterSpacing:"0.08em"
-            }}>
-              {lead.kilde || "Ukjent kilde"}
-            </span>
-          </div>
-          <div style={{ fontSize:"13px", color:"#9E9E9E", marginBottom:"8px" }}>
-            {lead.eiendom || lead.soek || "—"}
-          </div>
-          <div style={{ display:"flex", gap:"16px", flexWrap:"wrap" }}>
-            {lead.telefon && <span style={{ fontSize:"12px", color:"#B0BEC5", fontFamily:"'DM Mono',monospace" }}>📞 {lead.telefon}</span>}
-            {lead.epost   && <span style={{ fontSize:"12px", color:"#B0BEC5", fontFamily:"'DM Mono',monospace" }}>✉️ {lead.epost}</span>}
-            {lead.areal   && <span style={{ fontSize:"12px", color:"#B0BEC5", fontFamily:"'DM Mono',monospace" }}>📐 {lead.areal}</span>}
-          </div>
-        </div>
-        <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:"8px", marginLeft:"12px" }}>
-          <StatusBadge status={lead.status} onClick={nextStatus} />
-          <span style={{ fontSize:"10px", color:"#616161", fontFamily:"'DM Mono',monospace" }}>{lead.dato}</span>
-        </div>
-      </div>
-
-      {lead.melding && (
-        <div onClick={() => setExpanded(!expanded)} style={{
-          marginTop:"12px", padding:"10px 14px",
-          background:"rgba(255,255,255,0.03)", borderRadius:"8px",
-          borderLeft:"2px solid rgba(255,255,255,0.1)",
-          fontSize:"12px", color:"#9E9E9E", lineHeight:"1.6",
-          maxHeight: expanded ? "200px" : "40px",
-          overflow:"hidden", transition:"max-height 0.3s ease",
-          cursor:"pointer",
-        }}>
-          {lead.melding}
-        </div>
-      )}
-
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginTop:"12px" }}>
-        <span style={{ fontSize:"11px", color:"#616161" }}>👤 {lead.ansvarlig || "Ikke tildelt"}</span>
-        <button onClick={onDelete} style={{
-          background:"none", border:"none", color:"#424242",
-          cursor:"pointer", fontSize:"12px", transition:"color 0.2s",
-        }}
-          onMouseEnter={e=>e.target.style.color="#EF9A9A"}
-          onMouseLeave={e=>e.target.style.color="#424242"}
-        >slett</button>
-      </div>
-    </div>
-  );
-}
-
-function App() {
-  const [leads, setLeads] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; }
-  });
-  const [emailText, setEmailText]   = useState("");
-  const [ansvarlig, setAnsvarlig]   = useState("Edward Gundersen");
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState("");
-  const [activeFilter, setActiveFilter] = useState("Alle");
-  const [showInput, setShowInput]   = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
-  }, [leads]);
-
-  const parseEmail = async () => {
-    if (!emailText.trim()) return;
-    setLoading(true); setError("");
-    try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: `Du er en assistent som hjelper norske eiendomsmeglere å strukturere leads fra e-post.
-Svar KUN med et JSON-objekt, ingen forklaring, ingen markdown. Formatet:
-{"navn":"fullt navn","telefon":"telefonnummer eller null","epost":"e-post eller null","kilde":"FINN.no eller NE.meet eller Annet","eiendom":"navn/adresse på eiendom eller null","soek":"beskrivelse av søk eller null","areal":"areal f.eks 200-250m² eller null","melding":"kort sammendrag","type":"interessent eller soeker"}`,
-          messages: [{ role:"user", content:`Parse denne e-posten:\n\n${emailText}` }]
-        })
-      });
-      const data = await res.json();
-      const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,"").trim());
-      const nyLead = {
-        ...parsed, id: Date.now(), status:"Ny", ansvarlig,
-        dato: new Date().toLocaleDateString("nb-NO",{day:"2-digit",month:"short",year:"numeric"})
-      };
-      setLeads(prev => [nyLead, ...prev]);
-      setEmailText(""); setShowInput(false);
-    } catch(e) { setError("Kunne ikke parse e-posten. Prøv igjen."); }
-    setLoading(false);
-  };
-
-  const updateStatus = (id, idx) => {
-    const statuses = Object.keys(STATUS_CONFIG);
-    setLeads(prev => prev.map(l => l.id===id ? {...l, status:statuses[idx]} : l));
-  };
-  const deleteLead = (id) => setLeads(prev => prev.filter(l => l.id!==id));
-
-  const filtered = activeFilter==="Alle" ? leads : leads.filter(l=>l.status===activeFilter);
-  const counts = Object.keys(STATUS_CONFIG).reduce((acc,s)=>({...acc,[s]:leads.filter(l=>l.status===s).length}),{});
-
-  return (
-    <div style={{ minHeight:"100vh", background:"#0D0D0D" }}>
-      {/* Header */}
-      <div style={{
-        borderBottom:"1px solid rgba(255,255,255,0.06)",
-        padding:"24px 32px", display:"flex",
-        justifyContent:"space-between", alignItems:"center",
-      }}>
-        <div>
-          <div style={{ display:"flex", alignItems:"baseline", gap:"10px" }}>
-            <span style={{ fontFamily:"'Playfair Display',serif", fontSize:"22px", color:"#F5F0E8" }}>ORO</span>
-            <span style={{ color:"#424242", fontSize:"12px", fontFamily:"'DM Mono',monospace", letterSpacing:"0.15em" }}>LEADS</span>
-          </div>
-          <div style={{ fontSize:"12px", color:"#424242", marginTop:"2px" }}>{leads.length} leads totalt</div>
-        </div>
-        <button onClick={()=>setShowInput(!showInput)} style={{
-          background: showInput ? "rgba(255,255,255,0.05)" : "#F5F0E8",
-          color: showInput ? "#616161" : "#0D0D0D",
-          border:"none", borderRadius:"8px", padding:"10px 20px",
-          fontSize:"13px", fontWeight:500, cursor:"pointer", transition:"all 0.2s",
-        }}>
-          {showInput ? "Avbryt" : "+ Legg til lead"}
-        </button>
-      </div>
-
-      <div style={{ padding:"24px 32px", maxWidth:"860px", margin:"0 auto" }}>
-        {/* Input panel */}
-        {showInput && (
-          <div style={{
-            background:"rgba(255,255,255,0.03)",
-            border:"1px solid rgba(255,255,255,0.08)",
-            borderRadius:"14px", padding:"24px", marginBottom:"24px",
-          }}>
-            <div style={{ fontSize:"13px", color:"#757575", marginBottom:"12px", fontFamily:"'DM Mono',monospace", letterSpacing:"0.05em" }}>
-              LIM INN E-POSTTEKST
-            </div>
-            <textarea value={emailText} onChange={e=>setEmailText(e.target.value)}
-              placeholder="Kopier og lim inn e-posten fra FINN.no, NE.meet eller annen kilde her..."
-              style={{
-                width:"100%", minHeight:"140px",
-                background:"rgba(0,0,0,0.3)",
-                border:"1px solid rgba(255,255,255,0.06)",
-                borderRadius:"8px", padding:"14px",
-                color:"#E0E0E0", fontSize:"13px", lineHeight:"1.7",
-                resize:"vertical", outline:"none",
-              }}
-            />
-            <div style={{ display:"flex", gap:"12px", marginTop:"12px", alignItems:"center", flexWrap:"wrap" }}>
-              <select value={ansvarlig} onChange={e=>setAnsvarlig(e.target.value)} style={{
-                background:"rgba(0,0,0,0.3)",
-                border:"1px solid rgba(255,255,255,0.08)",
-                borderRadius:"6px", padding:"8px 12px",
-                color:"#9E9E9E", fontSize:"13px", outline:"none", cursor:"pointer",
-              }}>
-                {ANSATTE.map(a=><option key={a} value={a}>{a}</option>)}
-              </select>
-              <button onClick={parseEmail} disabled={loading||!emailText.trim()} style={{
-                background: (loading||!emailText.trim()) ? "rgba(245,240,232,0.3)" : "#F5F0E8",
-                color:"#0D0D0D", border:"none", borderRadius:"8px",
-                padding:"10px 24px", fontSize:"13px", fontWeight:500,
-                cursor: loading ? "wait" : "pointer", transition:"all 0.2s",
-              }}>
-                {loading ? "Analyserer..." : "✦ Parse med AI"}
-              </button>
-              {error && <span style={{ color:"#EF9A9A", fontSize:"12px" }}>{error}</span>}
-            </div>
-          </div>
-        )}
-
-        {/* Filter tabs */}
-        <div style={{ display:"flex", gap:"8px", marginBottom:"20px", flexWrap:"wrap" }}>
-          {["Alle",...Object.keys(STATUS_CONFIG)].map(s => {
-            const cfg = STATUS_CONFIG[s];
-            const count = s==="Alle" ? leads.length : counts[s]||0;
-            const active = activeFilter===s;
-            return (
-              <button key={s} onClick={()=>setActiveFilter(s)} style={{
-                background: active ? (cfg ? cfg.bg : "rgba(255,255,255,0.1)") : "rgba(255,255,255,0.02)",
-                border: `1px solid ${active ? (cfg ? cfg.color+"40" : "rgba(255,255,255,0.2)") : "rgba(255,255,255,0.06)"}`,
-                borderRadius:"20px", padding:"5px 14px",
-                color: active ? (cfg ? cfg.color : "#F5F0E8") : "#616161",
-                fontSize:"12px", fontFamily:"'DM Mono',monospace",
-                cursor:"pointer", transition:"all 0.2s",
-              }}>
-                {s} · {count}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Lead list */}
-        {filtered.length===0 ? (
-          <div style={{ textAlign:"center", padding:"80px 0", color:"#2A2A2A" }}>
-            <div style={{ fontSize:"40px", marginBottom:"16px" }}>◇</div>
-            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"18px", color:"#3A3A3A", marginBottom:"8px" }}>
-              Ingen leads ennå
-            </div>
-            <div style={{ fontSize:"13px" }}>
-              Lim inn en e-post fra FINN.no eller NE.meet for å komme i gang
-            </div>
-          </div>
-        ) : (
-          filtered.map(lead => (
-            <LeadCard key={lead.id} lead={lead}
-              onStatusChange={idx=>updateStatus(lead.id,idx)}
-              onDelete={()=>deleteLead(lead.id)}
-            />
-          ))
-        )}
-      </div>
-    </div>
-  );
-}
-
-const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App />);
+const PASSORD="oro2024",STORAGE_KEY="oro-leads-v4";
+const STATUS_CONFIG={"Ny":{color:"#1C6B60",bg:"#E6F3F1",dot:"#1C6B60",border:"#B2D8D3"},"Kontaktet":{color:"#7A5A00",bg:"#FFF8E1",dot:"#C49A00",border:"#F0DC80"},"I prosess":{color:"#5A2D82",bg:"#F3EEF9",dot:"#8B5CF6",border:"#C4A8E8"},"Vunnet":{color:"#1A5C2A",bg:"#E8F5EC",dot:"#27AE60",border:"#A3D4B0"},"Tapt":{color:"#7A2020",bg:"#FDECEA",dot:"#E74C3C",border:"#F0ABAB"}};
+const STATUSES=Object.keys(STATUS_CONFIG);let leads=[],activeFilter="Alle";const expanded=new Set();
+function checkPw(){if(document.getElementById('pw-input').value===PASSORD){document.getElementById('pw-screen').style.display='none';document.getElementById('app').classList.add('visible');sessionStorage.setItem('oro-auth','1');init();}else{document.getElementById('pw-error').style.display='block';document.getElementById('pw-input').value='';}}
+if(sessionStorage.getItem('oro-auth')==='1'){document.getElementById('pw-screen').style.display='none';document.getElementById('app').classList.add('visible');document.addEventListener('DOMContentLoaded',init);}
+function loadLeads(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}catch{return[];}}
+function saveLeads(){localStorage.setItem(STORAGE_KEY,JSON.stringify(leads));}
+function init(){leads=loadLeads();renderFilters();renderLeads();const input=document.getElementById('paste-input'),btn=document.getElementById('parse-btn');input.addEventListener('input',()=>{btn.disabled=!input.value.trim();document.getElementById('parse-error').textContent='';});input.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')parseEmail();});}
+async function parseEmail(){const text=document.getElementById('paste-input').value.trim();if(!text)return;const btn=document.getElementById('parse-btn');btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Analyserer…';document.getElementById('parse-error').textContent='';try{const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:'Du hjelper norske eiendomsmeglere å strukturere leads fra e-post.\nSvar KUN med et JSON-objekt, ingen forklaring, ingen markdown:\n{"navn":"fullt navn","telefon":"nummer eller null","epost":"e-post eller null","kilde":"FINN.no eller NE.meet eller Bekjent eller Annet","eiendom":"adresse/navn eller null","areal":"f.eks 200-250m\u00b2 eller null","melding":"kort sammendrag"}',messages:[{role:"user",content:text}]})});const data=await res.json();const parsed=JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());leads=[{...parsed,id:Date.now(),status:"Ny",ansvarlig:document.getElementById('ansvarlig-select').value,dato:new Date().toLocaleDateString('nb-NO',{day:'2-digit',month:'short',year:'numeric'})},...leads];saveLeads();document.getElementById('paste-input').value='';btn.disabled=true;renderFilters();renderLeads();}catch(e){document.getElementById('parse-error').textContent='Noe gikk galt – prøv igjen';btn.disabled=false;}btn.innerHTML='Legg til lead';}
+function nextStatus(id){leads=leads.map(l=>l.id!==id?l:{...l,status:STATUSES[(STATUSES.indexOf(l.status)+1)%STATUSES.length]});saveLeads();renderFilters();renderLeads();}
+function deleteLead(id){leads=leads.filter(l=>l.id!==id);saveLeads();renderFilters();renderLeads();}
+function toggleMelding(id){expanded.has(id)?expanded.delete(id):expanded.add(id);renderLeads();}
+function renderFilters(){const counts={};STATUSES.forEach(s=>counts[s]=leads.filter(l=>l.status===s).length);document.getElementById('filters').innerHTML=['Alle',...STATUSES].map(s=>{const cfg=STATUS_CONFIG[s],count=s==='Alle'?leads.length:(counts[s]||0),active=activeFilter===s;let style='';if(active&&cfg)style=`background:${cfg.bg};border-color:${cfg.border};color:${cfg.color};font-weight:600`;else if(active)style='background:var(--oro-light);border-color:var(--oro-accent);color:var(--oro-dark);font-weight:600';return `<button class="filter-btn" style="${style}" onclick="setFilter('${s}')">${s} &middot; ${count}</button>`;}).join('');document.getElementById('lead-count').textContent=leads.length+(leads.length===1?' lead':' leads');}
+function setFilter(s){activeFilter=s;renderFilters();renderLeads();}
+function renderLeads(){const filtered=activeFilter==='Alle'?leads:leads.filter(l=>l.status===activeFilter);const container=document.getElementById('lead-list');if(!filtered.length){container.innerHTML=`<div class="empty-state"><div class="empty-icon">◇</div><div class="empty-title">Ingen leads registrert</div><div class="empty-sub">Lim inn en e-post fra FINN.no eller NE.meet for å komme i gang</div></div>`;return;}container.innerHTML=filtered.map(lead=>{const cfg=STATUS_CONFIG[lead.status]||STATUS_CONFIG['Ny'];const kC=lead.kilde==='FINN.no'?'#D44000':lead.kilde==='NE.meet'?'#1A5CAA':'#1A5C2A';const kB=lead.kilde==='FINN.no'?'#FEF0EA':lead.kilde==='NE.meet'?'#EAF1FB':'#EAF5EC';const kBo=lead.kilde==='FINN.no'?'#F0B090':lead.kilde==='NE.meet'?'#90B8F0':'#90C8A0';const isExp=expanded.has(lead.id);return `<div class="lead-card"><div class="card-top"><div class="card-left"><div class="card-name-row"><span class="card-name">${lead.navn||'Ukjent'}</span><span class="source-badge" style="color:${kC};background:${kB};border:1px solid ${kBo}">${lead.kilde||''}</span></div><div class="card-sub">${lead.eiendom||lead.areal||'—'}</div><div class="card-meta">${lead.telefon?`<span>📞 ${lead.telefon}</span>`:''}${lead.epost?`<span>✉ ${lead.epost}</span>`:''}${lead.areal&&lead.eiendom?`<span>📐 ${lead.areal}</span>`:''}</div></div><div class="card-right"><button class="status-btn" style="background:${cfg.bg};color:${cfg.color};border-color:${cfg.border}" onclick="nextStatus(${lead.id})"><span class="status-dot" style="background:${cfg.dot}"></span>${lead.status}</button><span class="card-date">${lead.dato}</span></div></div>${lead.melding?`<div class="melding-box" style="max-height:${isExp?'200px':'42px'}" onclick="toggleMelding(${lead.id})">${lead.melding}</div>`:''}<div class="card-bottom"><span class="card-ansvarlig">Ansvarlig: ${lead.ansvarlig||'—'}</span><div class="card-actions"><button class="btn-slett" onclick="deleteLead(${lead.id})">Slett</button></div></div></div>`;}).join('');}
 </script>
 </body>
 </html>
