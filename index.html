@@ -16,62 +16,88 @@
   --shadow-lg:0 8px 32px rgba(20,16,11,.12),0 2px 8px rgba(20,16,11,.06);
 }
 html{font-size:13px;-webkit-font-smoothing:antialiased}
-body{background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;min-height:100vh}
+body{background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;height:100vh;overflow:hidden}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-thumb{background:var(--border-dk);border-radius:3px}
 ::-webkit-scrollbar-track{background:transparent}
 a{color:inherit;text-decoration:none}
+
+/* LOGIN */
 #pw{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--ink)}
 .pw-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,#2A1F14 0%,var(--ink) 70%)}
-.pw-card{position:relative;z-index:1;width:360px;padding:56px 48px 48px;background:var(--white);display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow-lg)}
+.pw-card{position:relative;z-index:1;width:380px;padding:56px 48px 48px;background:var(--white);display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow-lg)}
 .pw-oro{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;letter-spacing:.16em;color:var(--ink);line-height:1;margin-bottom:6px}
 .pw-sub{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--ink-3);margin-bottom:46px}
-.pw-rule{width:36px;height:1px;background:var(--gold);margin-bottom:40px;flex-shrink:0}
-.pw-lbl{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;align-self:flex-start;width:100%}
-.pw-in{width:100%;border:1px solid var(--border);background:var(--cream);padding:11px 14px;font-size:13px;font-family:'DM Mono',monospace;color:var(--ink);outline:none;letter-spacing:.06em;margin-bottom:12px;transition:border-color .2s}
+.pw-rule{width:36px;height:1px;background:var(--gold);margin-bottom:36px;flex-shrink:0}
+.pw-lbl{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;align-self:flex-start;width:100%}
+.pw-in{width:100%;border:1px solid var(--border);background:var(--cream);padding:11px 14px;font-size:13px;font-family:'DM Mono',monospace;color:var(--ink);outline:none;letter-spacing:.06em;margin-bottom:14px;transition:border-color .2s}
 .pw-in:focus{border-color:var(--gold);background:var(--white)}
 .pw-in::placeholder{color:var(--ink-3);font-style:italic;letter-spacing:.02em}
+.pw-hint{font-size:9px;color:var(--ink-3);margin-bottom:10px;align-self:flex-start;font-family:'DM Mono',monospace;letter-spacing:.03em;opacity:.7}
 .pw-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;transition:background .2s;margin-top:6px}
 .pw-btn:hover{background:#2A231B}
 .pw-err{font-size:10.5px;color:#B33;margin-top:9px;min-height:14px;font-family:'DM Mono',monospace;text-align:center}
-.pw-note{font-size:9.5px;color:var(--ink-3);margin-top:28px;letter-spacing:.08em;text-align:center}
-#app{display:none;flex-direction:column;min-height:100vh}
+.pw-note{font-size:9.5px;color:var(--ink-3);margin-top:24px;letter-spacing:.08em;text-align:center}
+
+/* APP — viewport locked, flex column fills screen */
+#app{display:none;flex-direction:column;height:100vh;overflow:hidden}
 #app.on{display:flex}
-.topbar{background:var(--ink);height:54px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;flex-shrink:0}
+
+/* TOPBAR */
+.topbar{background:var(--ink);height:52px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .tb-brand{display:flex;align-items:baseline;gap:14px}
 .tb-oro{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;letter-spacing:.16em;color:var(--white);line-height:1}
 .tb-sep{color:var(--gold);opacity:.5;font-weight:300;margin:0 2px}
 .tb-mod{font-size:8.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-lt);font-weight:400}
 .tb-stats{display:flex;align-items:center;gap:4px}
-.tb-stat{display:flex;flex-direction:column;align-items:flex-end;padding:0 14px}
-.tb-stat-n{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold-lt);line-height:1}
+.tb-stat{display:flex;flex-direction:column;align-items:flex-end;padding:0 12px}
+.tb-stat-n{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold-lt);line-height:1}
 .tb-stat-l{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:#5C4F3A;margin-top:1px}
-.tb-vr{width:1px;height:28px;background:#2A231B}
+.tb-vr{width:1px;height:26px;background:#2A231B}
+.tb-logout{background:none;border:1px solid #2A231B;color:#5C4F3A;font-size:8px;letter-spacing:.18em;text-transform:uppercase;font-family:'Outfit',sans-serif;padding:5px 10px;cursor:pointer;transition:all .2s;margin-left:12px}
+.tb-logout:hover{border-color:var(--gold);color:var(--gold-lt)}
+
+/* GOLD STRIP */
 .gold-strip{height:2px;background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,var(--gold-lt) 60%,transparent 100%);opacity:.35;flex-shrink:0}
-.pipeline{background:var(--parch);border-bottom:1px solid var(--border);padding:14px 32px 16px;flex-shrink:0}
-.pl-row{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+
+/* PIPELINE */
+.pipeline{background:var(--parch);border-bottom:1px solid var(--border);padding:10px 28px 11px;flex-shrink:0}
+.pl-row{display:flex;align-items:center;gap:16px;margin-bottom:8px}
 .pl-lbl{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
-.pl-bar{flex:1;height:5px;display:flex;gap:3px;overflow:hidden}
-.pl-seg{height:100%;transition:flex .5s ease;min-width:3px}
+.pl-bar{flex:1;height:4px;display:flex;gap:2px;overflow:hidden}
+.pl-seg{height:100%;transition:flex .5s ease;min-width:3px;border-radius:1px}
 .pl-pills{display:flex;gap:5px;flex-wrap:wrap}
-.ppill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 9px;border:1px solid var(--border);font-size:10.5px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none}
+.ppill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 8px;border:1px solid var(--border);font-size:10px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none}
 .ppill .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.ppill .n{font-family:'DM Mono',monospace;font-size:9.5px;opacity:.65;margin-left:2px}
-.addbar{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;flex-shrink:0}
-.addbar-inner{display:flex;gap:12px;align-items:flex-end}
-.paste-wrap{flex:1;position:relative;border:1px solid var(--border);background:var(--cream);transition:border-color .2s,background .2s}
+.ppill .n{font-family:'DM Mono',monospace;font-size:9px;opacity:.65;margin-left:2px}
+
+/* ADD PANEL — collapsible */
+.addpanel{background:var(--white);border-bottom:2px solid var(--border);flex-shrink:0}
+.addpanel-header{padding:9px 28px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.addpanel-header:hover{background:var(--cream)}
+.addpanel.open .addpanel-header{border-bottom-color:var(--border)}
+.ap-toggle{width:18px;height:18px;border:1px solid var(--border-dk);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:300;color:var(--ink-2);transition:all .2s;flex-shrink:0;line-height:1}
+.addpanel.open .ap-toggle{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.ap-title{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.ap-hint{font-size:9.5px;color:var(--ink-3);margin-left:auto;font-family:'DM Mono',monospace;letter-spacing:.02em}
+.addpanel-body{display:none;padding:12px 28px 14px}
+.addpanel.open .addpanel-body{display:block}
+.addbar-inner{display:flex;gap:14px;align-items:flex-start}
+.paste-wrap{flex:1;border:1px solid var(--border);background:var(--cream);transition:border-color .2s,background .2s}
 .paste-wrap:focus-within{border-color:var(--gold);background:var(--white)}
-.paste-lbl{position:absolute;top:9px;left:12px;font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);pointer-events:none;z-index:1}
-#paste-input{width:100%;background:transparent;border:none;outline:none;color:var(--ink);font-size:12px;font-family:'DM Mono',monospace;line-height:1.6;resize:none;padding:24px 12px 9px;min-height:50px;max-height:110px;overflow-y:auto;display:block}
+.paste-lbl{display:block;font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding:7px 12px 0}
+#paste-input{width:100%;background:transparent;border:none;outline:none;color:var(--ink);font-size:12px;font-family:'DM Mono',monospace;line-height:1.65;resize:none;padding:4px 12px 8px;min-height:52px;max-height:180px;overflow-y:auto;display:block}
 #paste-input::placeholder{color:var(--ink-3);font-style:italic}
-.addbar-ctrl{display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:176px}
+.addbar-ctrl{display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:186px}
 .sel{border:1px solid var(--border);background:var(--cream);padding:9px 10px;font-size:12px;font-family:'Outfit',sans-serif;color:var(--ink-2);outline:none;cursor:pointer;width:100%;transition:border-color .2s}
 .sel:focus{border-color:var(--gold)}
 .add-btn{background:var(--ink);color:var(--white);border:none;padding:10px 18px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
 .add-btn:hover:not(:disabled){background:#2A231B}
 .add-btn:disabled{opacity:.32;cursor:default}
-.add-err{font-size:10px;color:#B33;font-family:'DM Mono',monospace;min-height:12px;text-align:right}
-.filterbar{background:var(--parch);border-bottom:1px solid var(--border);padding:8px 32px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.add-err{font-size:10px;color:#B33;font-family:'DM Mono',monospace;min-height:12px;text-align:right;margin-top:3px}
+
+/* FILTER BAR */
+.filterbar{background:var(--parch);border-bottom:1px solid var(--border);padding:7px 28px;display:flex;align-items:center;gap:12px;flex-shrink:0}
 .srch-wrap{position:relative;display:flex;align-items:center}
 .srch-ico{position:absolute;left:9px;width:13px;height:13px;color:var(--ink-3);pointer-events:none}
 .srch-in{border:1px solid var(--border);background:var(--cream);padding:6px 10px 6px 30px;font-size:12px;font-family:'Outfit',sans-serif;color:var(--ink);outline:none;width:220px;transition:all .2s}
@@ -82,50 +108,69 @@ a{color:inherit;text-decoration:none}
 .sort-sel{border:1px solid var(--border);background:var(--cream);padding:5px 8px;font-size:11.5px;font-family:'Outfit',sans-serif;color:var(--ink-2);outline:none;cursor:pointer}
 .sort-sel:focus{border-color:var(--gold)}
 .fb-count{font-size:10.5px;color:var(--ink-3);font-family:'DM Mono',monospace;margin-left:auto}
-.table-wrap{flex:1;overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1140px}
-thead th{background:var(--parch-dk);border-bottom:2px solid var(--border-dk);border-right:1px solid var(--border);padding:9px 13px;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:500;font-family:'Outfit',sans-serif;white-space:nowrap;position:sticky;top:54px;cursor:pointer;user-select:none;transition:color .15s,background .15s;z-index:10}
+
+/* TABLE — takes all remaining space, scrolls independently */
+.table-wrap{flex:1;overflow-y:auto;overflow-x:auto;min-height:0}
+table{width:100%;border-collapse:collapse;min-width:1100px}
+thead th{
+  background:var(--parch-dk);border-bottom:2px solid var(--border-dk);border-right:1px solid var(--border);
+  padding:8px 12px;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:500;font-family:'Outfit',sans-serif;white-space:nowrap;position:sticky;top:0;
+  cursor:pointer;user-select:none;transition:color .15s,background .15s;z-index:10
+}
 thead th:last-child{border-right:none}
 thead th:hover{color:var(--ink);background:#E5DDD0}
+thead th.s-asc::after{content:' ↑';color:var(--gold)}
+thead th.s-desc::after{content:' ↓';color:var(--gold)}
 thead th.nosort{cursor:default}
 thead th.nosort:hover{color:var(--ink-3);background:var(--parch-dk)}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
 tbody tr:hover{background:#F6F0E7}
 tbody tr.exp-parent{background:#EEE6D8}
-tbody tr.row-new{animation:rowIn .3s ease}
-@keyframes rowIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-td{padding:10px 13px;vertical-align:middle;border-right:1px solid var(--border);font-size:12.5px;color:var(--ink);line-height:1.35}
+td{padding:9px 12px;vertical-align:middle;border-right:1px solid var(--border);font-size:12.5px;color:var(--ink);line-height:1.35}
 td:last-child{border-right:none}
-.c-nr{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--ink-3);text-align:right;width:36px;padding-right:10px}
-.c-navn{min-width:148px;font-weight:500}
-.c-kilde{width:94px}
-.c-eiendom{min-width:160px;color:var(--ink-2);font-size:12px}
-.c-areal{width:90px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-2)}
-.c-tlf{width:120px;font-family:'DM Mono',monospace;font-size:11px}
-.c-epost{min-width:180px;font-size:11.5px}
+
+@keyframes rowIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes highlightNew{0%,30%{background:#FDF3DC}100%{background:transparent}}
+.row-new{animation:rowIn .35s ease}
+.row-new td{animation:highlightNew 2.5s ease 0.1s forwards}
+
+.c-nr{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--ink-3);text-align:right;width:34px;padding-right:9px}
+.c-navn{min-width:140px;font-weight:500}
+.c-kilde{width:90px}
+.c-eiendom{min-width:150px;color:var(--ink-2);font-size:12px}
+.c-areal{width:86px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-2)}
+.c-tlf{width:114px;font-family:'DM Mono',monospace;font-size:11px}
+.c-epost{min-width:168px;font-size:11.5px}
 .c-epost a{color:var(--ink-2);border-bottom:1px solid transparent;transition:border-color .15s}
 .c-epost a:hover{border-color:var(--border-dk)}
-.c-melding{min-width:200px;max-width:280px}
+.c-melding{min-width:190px;max-width:270px}
 .clip{font-size:11.5px;color:var(--ink-2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 .clip.full{-webkit-line-clamp:unset}
-.c-status{width:112px}
-.c-ansv{width:136px}
-.c-dato{width:88px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-3)}
-.c-act{width:46px;text-align:center}
-.src-badge{display:inline-flex;align-items:center;padding:2px 8px;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border:1px solid;white-space:nowrap}
+.c-status{width:108px}
+.c-ansv{width:130px}
+.c-dato{width:84px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-3)}
+.c-act{width:42px;text-align:center}
+
+.src-badge{display:inline-flex;align-items:center;padding:2px 7px;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border:1px solid;white-space:nowrap}
 .src-finn{color:#B83200;background:#FEF1EC;border-color:#F0A080}
 .src-ne{color:#1448A0;background:#EBF2FE;border-color:#90B4F0}
 .src-bek{color:#1C5830;background:#EBF6EE;border-color:#90C490}
 .src-ann{color:#5A4000;background:#FAF4E0;border-color:#D4C070}
-.st-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;font-family:'Outfit',sans-serif;width:100%;justify-content:center}
+
+.st-btn{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;font-family:'Outfit',sans-serif;width:100%;justify-content:center}
 .st-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+
 .av-chip{display:flex;align-items:center;gap:7px}
 .av{width:22px;height:22px;border-radius:50%;background:var(--parch-dk);border:1px solid var(--border-dk);display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:600;color:var(--ink-2);flex-shrink:0}
 .av-name{font-size:11.5px;color:var(--ink-2)}
+
 .del-btn{background:none;border:none;color:var(--border-dk);cursor:pointer;font-size:15px;padding:2px 5px;transition:color .15s;line-height:1}
 .del-btn:hover{color:#C0392B}
+
+/* EXPAND ROW */
 .exp-row td{background:#E8DFD0;border-top:none;padding:0}
-.exp-inner{padding:18px 28px 18px 46px;display:flex;gap:28px;flex-wrap:wrap;border-top:1px solid var(--border-dk)}
+.exp-inner{padding:14px 24px 14px 44px;display:flex;gap:22px;flex-wrap:wrap;border-top:1px solid var(--border-dk);align-items:flex-start}
 .exp-block{display:flex;flex-direction:column;gap:4px}
 .exp-lbl{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
 .exp-val{font-size:12.5px;color:var(--ink);line-height:1.5;max-width:320px}
@@ -133,35 +178,50 @@ td:last-child{border-right:none}
 .exp-val a{border-bottom:1px solid var(--border-dk)}
 .exp-val a:hover{color:var(--gold);border-color:var(--gold)}
 .exp-sts{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
-.exp-st{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;opacity:.45}
+.exp-st{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;opacity:.45}
 .exp-st:hover{opacity:.8}
 .exp-st.sel{opacity:1;box-shadow:0 1px 5px rgba(0,0,0,.1)}
-.exp-del-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid #C0392B;color:#C0392B;background:transparent;font-family:'Outfit',sans-serif;transition:all .15s}
+.exp-del-btn{display:inline-flex;align-items:center;padding:5px 13px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid #C0392B;color:#C0392B;background:transparent;font-family:'Outfit',sans-serif;transition:all .15s}
 .exp-del-btn:hover{background:#C0392B;color:#fff}
-.empty-cell{text-align:center;padding:90px 20px!important;border-right:none!important}
+.exp-notes-wrap{flex:2;min-width:240px;position:relative}
+.exp-notes{width:100%;border:1px solid var(--border);background:var(--white);padding:7px 10px;font-size:11.5px;font-family:'Outfit',sans-serif;color:var(--ink);outline:none;line-height:1.55;resize:none;transition:border-color .2s;min-height:44px;max-height:90px;display:block}
+.exp-notes:focus{border-color:var(--gold)}
+.exp-notes-save{position:absolute;bottom:5px;right:5px;background:var(--gold);color:var(--white);border:none;font-size:8px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;cursor:pointer;font-family:'Outfit',sans-serif;opacity:0;transition:opacity .15s}
+.exp-notes-wrap:focus-within .exp-notes-save{opacity:1}
+
+/* EMPTY */
+.empty-cell{text-align:center;padding:80px 20px!important;border-right:none!important}
 .e-glyph{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--border-dk);line-height:1;margin-bottom:14px}
-.e-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink-3);margin-bottom:7px}
-.e-hint{font-size:12px;color:var(--ink-3)}
+.e-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink-3);margin-bottom:7px}
+.e-hint{font-size:12px;color:var(--ink-3);cursor:pointer;transition:color .15s}
+.e-hint:hover{color:var(--gold)}
+
+/* SPINNER */
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{width:11px;height:11px;border:1.5px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .65s linear infinite;display:inline-block;flex-shrink:0}
 </style>
 </head>
 <body>
+
+<!-- LOGIN -->
 <div id="pw">
   <div class="pw-bg"></div>
   <div class="pw-card">
     <div class="pw-oro">ORO</div>
     <div class="pw-sub">Næringseiendom · Oslo</div>
     <div class="pw-rule"></div>
-    <div class="pw-lbl">Passord</div>
-    <input class="pw-in" type="password" id="pw-in" placeholder="Tilgangspassord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()"/>
-    <div class="pw-lbl" style="margin-top:4px">Anthropic API-nøkkel</div>
-    <input class="pw-in" type="password" id="api-in" placeholder="sk-ant-api03-…" autocomplete="off" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <div class="pw-lbl">Tilgangspassord</div>
+    <input class="pw-in" type="password" id="pw-in" placeholder="Passord" autocomplete="current-password" onkeydown="if(event.key==='Enter')document.getElementById('ak-in').focus()"/>
+    <div class="pw-lbl">Anthropic API-nøkkel</div>
+    <input class="pw-in" type="password" id="ak-in" placeholder="sk-ant-api03-…" autocomplete="off" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <div class="pw-hint">Lagres lokalt i nettleseren · deles ikke</div>
     <button class="pw-btn" onclick="tryLogin()">Logg inn</button>
     <div class="pw-err" id="pw-err"></div>
     <div class="pw-note">Kun for autorisert ORO-personell</div>
   </div>
 </div>
+
+<!-- APP -->
 <div id="app">
   <div class="topbar">
     <div class="tb-brand">
@@ -177,31 +237,52 @@ td:last-child{border-right:none}
       <div class="tb-stat"><span class="tb-stat-n" id="s-won">0</span><span class="tb-stat-l">Vunnet</span></div>
       <div class="tb-vr"></div>
       <div class="tb-stat"><span class="tb-stat-n" id="s-new">0</span><span class="tb-stat-l">Nye (7d)</span></div>
+      <button class="tb-logout" onclick="logout()">Logg ut</button>
     </div>
   </div>
   <div class="gold-strip"></div>
+
   <div class="pipeline">
-    <div class="pl-row"><span class="pl-lbl">Salgspipeline</span><div class="pl-bar" id="pl-bar"></div></div>
+    <div class="pl-row">
+      <span class="pl-lbl">Salgspipeline</span>
+      <div class="pl-bar" id="pl-bar"></div>
+    </div>
     <div class="pl-pills" id="pl-pills"></div>
   </div>
-  <div class="addbar">
-    <div class="addbar-inner">
-      <div class="paste-wrap">
-        <span class="paste-lbl">Lim inn e-post fra FINN.no · NE.meet · eller annen kilde — AI analyserer automatisk</span>
-        <textarea id="paste-input" rows="2" placeholder="Kopier hele e-postteksten og lim inn her…"></textarea>
-      </div>
-      <div class="addbar-ctrl">
-        <select class="sel" id="ansv-sel">
-          <option value="">— Velg ansvarlig —</option>
-          <option>Edward Gundersen</option><option>Gunnar Vestby</option><option>Christoffer Oterholt</option>
-          <option>Jørgen Anker-Rasch</option><option>Alfred Hegnar</option><option>Mathias Brandt-Kjelsen</option>
-          <option>Nikolai Staubo</option><option>Anders Brustad-Nilsen</option><option>Kristian Bartnes</option><option>Anders Aasand</option>
-        </select>
-        <button class="add-btn" id="add-btn" onclick="addLead()" disabled>Legg til lead</button>
-        <div class="add-err" id="add-err"></div>
+
+  <div class="addpanel open" id="addpanel">
+    <div class="addpanel-header" onclick="toggleAddPanel()">
+      <div class="ap-toggle" id="ap-toggle">−</div>
+      <span class="ap-title">Ny henvendelse — lim inn e-post for AI-analyse</span>
+      <span class="ap-hint">⌘ + Enter for å analysere</span>
+    </div>
+    <div class="addpanel-body">
+      <div class="addbar-inner">
+        <div class="paste-wrap">
+          <span class="paste-lbl">E-posttekst fra FINN.no · NE.meet · eller annen kilde</span>
+          <textarea id="paste-input" rows="3" placeholder="Kopier hele e-postteksten og lim inn her…"></textarea>
+        </div>
+        <div class="addbar-ctrl">
+          <select class="sel" id="ansv-sel">
+            <option value="">— Velg ansvarlig —</option>
+            <option>Edward Gundersen</option>
+            <option>Gunnar Vestby</option>
+            <option>Christoffer Oterholt</option>
+            <option>Jørgen Anker-Rasch</option>
+            <option>Alfred Hegnar</option>
+            <option>Mathias Brandt-Kjelsen</option>
+            <option>Nikolai Staubo</option>
+            <option>Anders Brustad-Nilsen</option>
+            <option>Kristian Bartnes</option>
+            <option>Anders Aasand</option>
+          </select>
+          <button class="add-btn" id="add-btn" onclick="addLead()" disabled>Analyser og legg til</button>
+          <div class="add-err" id="add-err"></div>
+        </div>
       </div>
     </div>
   </div>
+
   <div class="filterbar">
     <div class="srch-wrap">
       <svg class="srch-ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -218,19 +299,32 @@ td:last-child{border-right:none}
     </select>
     <span class="fb-count" id="fb-count"></span>
   </div>
-  <div class="table-wrap">
+
+  <div class="table-wrap" id="table-wrap">
     <table>
-      <thead><tr>
-        <th class="c-nr nosort">#</th><th>Kontakt</th><th>Kilde</th><th>Eiendom / Lokasjon</th>
-        <th>Ønsket areal</th><th>Telefon</th><th>E-post</th><th>Henvendelse</th>
-        <th>Status</th><th>Ansvarlig</th><th>Dato</th><th class="nosort"></th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th class="c-nr nosort">#</th>
+          <th>Kontakt</th>
+          <th>Kilde</th>
+          <th>Eiendom / Lokasjon</th>
+          <th>Ønsket areal</th>
+          <th>Telefon</th>
+          <th>E-post</th>
+          <th>Henvendelse</th>
+          <th>Status</th>
+          <th>Ansvarlig</th>
+          <th>Dato</th>
+          <th class="nosort"></th>
+        </tr>
+      </thead>
       <tbody id="leads-body"></tbody>
     </table>
   </div>
 </div>
+
 <script>
-const PW="oro2024",SK="oro-leads-v6";
+const PW="oro2024", SK="oro-leads-v6", AK_KEY="oro-ak";
 const STATUSES=["Ny","Kontaktet","I prosess","Vunnet","Tapt"];
 const SC={
   "Ny":       {c:"#1E4DAA",bg:"#EEF3FD",bd:"#ADC4F0",dot:"#3B82F6",seg:"#7BA8DC"},
@@ -239,37 +333,72 @@ const SC={
   "Vunnet":   {c:"#135A24",bg:"#EBF7EE",bd:"#88C899",dot:"#22C55E",seg:"#4AAA70"},
   "Tapt":     {c:"#8A1A1A",bg:"#FDF0EE",bd:"#ECA0A0",dot:"#EF4444",seg:"#C86060"}
 };
-let leads=[],filterStatus="Alle";
+
+let leads=[], filterStatus="Alle", API_KEY="";
 const expanded=new Set();
+
+// AUTH
 function tryLogin(){
   const pw=document.getElementById('pw-in').value;
-  const ak=document.getElementById('api-in').value.trim();
+  const ak=document.getElementById('ak-in').value.trim();
   const err=document.getElementById('pw-err');
-  if(!ak){flashErr(err,"API-nøkkel mangler");return;}
   if(pw!==PW){flashErr(err,"Feil passord");document.getElementById('pw-in').value='';return;}
-  localStorage.setItem('oro-ak',ak);
+  if(!ak||!ak.startsWith('sk-')){flashErr(err,"Ugyldig API-nøkkel — må starte med sk-");return;}
+  API_KEY=ak;
+  localStorage.setItem(AK_KEY,ak);
   sessionStorage.setItem('oro-sess','1');
   document.getElementById('pw').style.display='none';
   document.getElementById('app').classList.add('on');
   boot();
 }
-function flashErr(el,msg){el.textContent=msg;setTimeout(()=>el.textContent='',3500);}
-if(sessionStorage.getItem('oro-sess')==='1'){
-  document.getElementById('pw').style.display='none';
-  document.getElementById('app').classList.add('on');
-  document.addEventListener('DOMContentLoaded',boot);
+function logout(){
+  sessionStorage.removeItem('oro-sess');
+  API_KEY='';
+  location.reload();
 }
+function flashErr(el,msg){el.textContent=msg;setTimeout(()=>el.textContent='',3500);}
+
+// Auto-login if session active and API key stored
+if(sessionStorage.getItem('oro-sess')==='1'){
+  const storedAk=localStorage.getItem(AK_KEY)||'';
+  if(storedAk){
+    API_KEY=storedAk;
+    document.getElementById('pw').style.display='none';
+    document.getElementById('app').classList.add('on');
+    document.addEventListener('DOMContentLoaded',boot);
+  }
+}
+
+// BOOT
 function boot(){
   leads=JSON.parse(localStorage.getItem(SK)||'[]');
-  const ta=document.getElementById('paste-input'),btn=document.getElementById('add-btn');
-  ta.addEventListener('input',()=>{btn.disabled=!ta.value.trim();document.getElementById('add-err').textContent='';});
-  ta.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')addLead();});
+  // migrate old leads without notat
+  leads=leads.map(l=>({notat:'', ...l}));
+  const ta=document.getElementById('paste-input'), btn=document.getElementById('add-btn');
+  ta.addEventListener('input',()=>{
+    btn.disabled=!ta.value.trim();
+    document.getElementById('add-err').textContent='';
+    ta.style.height='auto';
+    ta.style.height=Math.min(ta.scrollHeight,180)+'px';
+  });
+  ta.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){e.preventDefault();addLead();}});
   render();
 }
 function save(){localStorage.setItem(SK,JSON.stringify(leads));}
+
+function toggleAddPanel(){
+  const p=document.getElementById('addpanel');
+  const t=document.getElementById('ap-toggle');
+  const isOpen=p.classList.toggle('open');
+  t.textContent=isOpen?'−':'+';
+  if(isOpen) setTimeout(()=>document.getElementById('paste-input').focus(),60);
+}
+
+// ADD LEAD
 async function addLead(){
   const text=document.getElementById('paste-input').value.trim();
   if(!text)return;
+  if(!API_KEY){document.getElementById('add-err').textContent='Ingen API-nøkkel — logg inn på nytt';return;}
   const btn=document.getElementById('add-btn');
   btn.disabled=true;
   btn.innerHTML='<span class="spin"></span>&nbsp;Analyserer…';
@@ -277,62 +406,135 @@ async function addLead(){
   try{
     const resp=await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":localStorage.getItem('oro-ak')||'',
+      headers:{"Content-Type":"application/json","x-api-key":API_KEY,
         "anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({
         model:"claude-sonnet-4-20250514",max_tokens:900,
-        system:'Du hjelper norske næringseiendomsmeglere strukturere leads fra e-post.\nSvar KUN med et rent JSON-objekt: {"navn":"fullt navn","telefon":"nummer eller null","epost":"e-post eller null","kilde":"FINN.no|NE.meet|Bekjent|Annet","eiendom":"adresse/navn eller null","areal":"f.eks 150–250 m² eller null","melding":"sammendrag maks 130 tegn"}',
+        system:`Du hjelper norske næringseiendomsmeglere strukturere leads fra e-post.
+Svar KUN med et rent JSON-objekt – ingen markdown, ingen kodeblokker:
+{"navn":"fullt navn eller 'Ukjent'","telefon":"telefonnummer eller null","epost":"e-postadresse eller null","kilde":"FINN.no|NE.meet|Bekjent|Annet","eiendom":"adresse/eiendomsnavn eller null","areal":"f.eks 150–250 m² eller null","melding":"nøktern sammendrag på norsk, maks 130 tegn"}`,
         messages:[{role:"user",content:text}]
       })
     });
     const data=await resp.json();
     if(data.error)throw new Error(data.error.message);
     const parsed=JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
-    const lead={...parsed,id:Date.now(),status:"Ny",
+    const lead={...parsed,id:Date.now(),status:"Ny",notat:'',
       ansvarlig:document.getElementById('ansv-sel').value||null,
       dato:new Date().toLocaleDateString('nb-NO',{day:'2-digit',month:'short',year:'numeric'}),
       ts:Date.now()};
     leads.unshift(lead);save();
     document.getElementById('paste-input').value='';
+    document.getElementById('paste-input').style.height='auto';
     btn.disabled=true;
+    filterStatus='Alle'; // reset filter so new lead is visible
     render(lead.id);
+    // Scroll table to new lead
+    setTimeout(()=>{
+      const row=document.querySelector(`[data-id="${lead.id}"]`);
+      if(row) row.scrollIntoView({behavior:'smooth',block:'center'});
+    },80);
   }catch(e){
     document.getElementById('add-err').textContent='Feil — sjekk API-nøkkel og prøv igjen';
     btn.disabled=false;
+    console.error(e);
   }
-  btn.innerHTML='Legg til lead';
+  btn.innerHTML='Analyser og legg til';
 }
-function cycleStatus(id,e){e.stopPropagation();leads=leads.map(l=>l.id!==id?l:{...l,status:STATUSES[(STATUSES.indexOf(l.status)+1)%STATUSES.length]});save();render();}
-function setStatus(id,s,e){e&&e.stopPropagation();leads=leads.map(l=>l.id!==id?l:{...l,status:s});save();render();}
-function deleteLead(id,e){e&&e.stopPropagation();if(!confirm('Slette dette leadet?'))return;leads=leads.filter(l=>l.id!==id);expanded.delete(id);save();render();}
+
+// ACTIONS
+function cycleStatus(id,e){
+  e.stopPropagation();
+  leads=leads.map(l=>l.id!==id?l:{...l,status:STATUSES[(STATUSES.indexOf(l.status)+1)%STATUSES.length]});
+  save();render();
+}
+function setStatus(id,s,e){
+  e&&e.stopPropagation();
+  leads=leads.map(l=>l.id!==id?l:{...l,status:s});
+  save();render();
+}
+function deleteLead(id,e){
+  e&&e.stopPropagation();
+  if(!confirm('Slette dette leadet permanent?'))return;
+  leads=leads.filter(l=>l.id!==id);
+  expanded.delete(id);save();render();
+}
+function saveNote(id,e){
+  e&&e.stopPropagation();
+  const ta=document.getElementById(`note-${id}`);
+  if(!ta)return;
+  leads=leads.map(l=>l.id!==id?l:{...l,notat:ta.value});
+  save();
+  const btn=document.getElementById(`nsave-${id}`);
+  if(btn){btn.textContent='Lagret ✓';setTimeout(()=>{if(btn)btn.textContent='Lagre';},1500);}
+}
 function toggleRow(id){expanded.has(id)?expanded.delete(id):expanded.add(id);render();}
 function setFilter(f){filterStatus=f;render();}
+
+// RENDER
 function render(newId){
-  const total=leads.length,active=leads.filter(l=>l.status!=='Vunnet'&&l.status!=='Tapt').length,won=leads.filter(l=>l.status==='Vunnet').length,week=leads.filter(l=>(l.ts||0)>Date.now()-7*86400000).length;
-  document.getElementById('s-tot').textContent=total;document.getElementById('s-act').textContent=active;document.getElementById('s-won').textContent=won;document.getElementById('s-new').textContent=week;
+  const total=leads.length;
+  const active=leads.filter(l=>l.status!=='Vunnet'&&l.status!=='Tapt').length;
+  const won=leads.filter(l=>l.status==='Vunnet').length;
+  const week=leads.filter(l=>(l.ts||0)>Date.now()-7*86400000).length;
+  document.getElementById('s-tot').textContent=total;
+  document.getElementById('s-act').textContent=active;
+  document.getElementById('s-won').textContent=won;
+  document.getElementById('s-new').textContent=week;
+
   const counts={};STATUSES.forEach(s=>counts[s]=leads.filter(l=>l.status===s).length);
-  document.getElementById('pl-bar').innerHTML=STATUSES.map(s=>`<div class="pl-seg" style="flex:${counts[s]||.2};background:${SC[s].seg}"></div>`).join('');
+  document.getElementById('pl-bar').innerHTML=STATUSES.map(s=>
+    `<div class="pl-seg" style="flex:${counts[s]||.2};background:${SC[s].seg}"></div>`
+  ).join('');
+
   const all=['Alle',...STATUSES];
   document.getElementById('pl-pills').innerHTML=all.map(s=>{
-    const cnt=s==='Alle'?total:(counts[s]||0),isAct=filterStatus===s;
-    const sty=s==='Alle'?(isAct?'background:var(--ink);color:var(--white);border-color:var(--ink)':'background:var(--parch);border-color:var(--border-dk);color:var(--ink-2)'):(isAct?`background:${SC[s].bg};border-color:${SC[s].bd};color:${SC[s].c}`:'background:var(--parch);border-color:var(--border);color:var(--ink-3)');
+    const cnt=s==='Alle'?total:(counts[s]||0), isAct=filterStatus===s;
+    const sty=s==='Alle'
+      ?(isAct?`background:var(--ink);color:var(--white);border-color:var(--ink)`:`background:var(--parch);border-color:var(--border-dk);color:var(--ink-2)`)
+      :(isAct?`background:${SC[s].bg};border-color:${SC[s].bd};color:${SC[s].c}`:`background:var(--parch);border-color:var(--border);color:var(--ink-3)`);
     const dot=s!=='Alle'?`<span class="dot" style="background:${SC[s].dot}"></span>`:'';
     return `<div class="ppill" style="${sty}" onclick="setFilter('${s}')">${dot}${s}<span class="n">${cnt}</span></div>`;
   }).join('');
+
   const q=(document.getElementById('srch')?.value||'').toLowerCase().trim();
   const sv=document.getElementById('sort-sel')?.value||'dato-desc';
   let rows=filterStatus==='Alle'?[...leads]:leads.filter(l=>l.status===filterStatus);
-  if(q)rows=rows.filter(l=>(l.navn||'').toLowerCase().includes(q)||(l.eiendom||'').toLowerCase().includes(q)||(l.melding||'').toLowerCase().includes(q)||(l.epost||'').toLowerCase().includes(q)||(l.ansvarlig||'').toLowerCase().includes(q));
+  if(q)rows=rows.filter(l=>
+    (l.navn||'').toLowerCase().includes(q)||
+    (l.eiendom||'').toLowerCase().includes(q)||
+    (l.melding||'').toLowerCase().includes(q)||
+    (l.epost||'').toLowerCase().includes(q)||
+    (l.ansvarlig||'').toLowerCase().includes(q)||
+    (l.notat||'').toLowerCase().includes(q)
+  );
   const[col,dir]=sv.split('-');const d=dir==='asc'?1:-1;
-  rows.sort((a,b)=>{const av=col==='dato'?(a.ts||0):(a[col]||''),bv=col==='dato'?(b.ts||0):(b[col]||'');return av<bv?-d:av>bv?d:0;});
+  rows.sort((a,b)=>{
+    const av=col==='dato'?(a.ts||0):(a[col]||'');
+    const bv=col==='dato'?(b.ts||0):(b[col]||'');
+    return av<bv?-d:av>bv?d:0;
+  });
+
   document.getElementById('fb-count').textContent=rows.length!==total?`${rows.length} av ${total} leads`:`${total} leads`;
+
   const tbody=document.getElementById('leads-body');
-  if(!rows.length){tbody.innerHTML=`<tr><td colspan="12" class="empty-cell"><div class="e-glyph">◈</div><div class="e-title">Ingen leads å vise</div><div class="e-hint">Lim inn en e-post fra FINN.no eller NE.meet ovenfor</div></td></tr>`;return;}
+  if(!rows.length){
+    tbody.innerHTML=`<tr><td colspan="12" class="empty-cell">
+      <div class="e-glyph">◈</div>
+      <div class="e-title">Ingen leads å vise</div>
+      <div class="e-hint" onclick="document.getElementById('addpanel').classList.contains('open')||toggleAddPanel()">Lim inn en e-post ovenfor for å registrere en ny henvendelse ↑</div>
+    </td></tr>`;
+    return;
+  }
+
   tbody.innerHTML=rows.map((l,i)=>{
     const s=SC[l.status]||SC['Ny'];
     const src={'FINN.no':'src-finn','NE.meet':'src-ne','Bekjent':'src-bek'}[l.kilde]||'src-ann';
-    const isExp=expanded.has(l.id),ini=(l.ansvarlig||'').split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
-    const main=`<tr class="${isExp?'exp-parent':''} ${l.id===newId?'row-new':''}" onclick="toggleRow(${l.id})">
+    const isExp=expanded.has(l.id);
+    const isNew=l.id===newId;
+    const ini=(l.ansvarlig||'').split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+
+    const main=`<tr class="${isExp?'exp-parent':''} ${isNew?'row-new':''}" data-id="${l.id}" onclick="toggleRow(${l.id})">
       <td class="c-nr">${i+1}</td>
       <td class="c-navn">${esc(l.navn||'Ukjent')}</td>
       <td class="c-kilde"><span class="src-badge ${src}">${esc(l.kilde||'—')}</span></td>
@@ -341,28 +543,50 @@ function render(newId){
       <td class="c-tlf">${esc(l.telefon||'—')}</td>
       <td class="c-epost">${l.epost?`<a href="mailto:${esc(l.epost)}" onclick="event.stopPropagation()">${esc(l.epost)}</a>`:'—'}</td>
       <td class="c-melding"><div class="clip ${isExp?'full':''}">${esc(l.melding||'—')}</div></td>
-      <td class="c-status"><div class="st-btn" style="color:${s.c};background:${s.bg};border-color:${s.bd}" onclick="cycleStatus(${l.id},event)"><span class="st-dot" style="background:${s.dot}"></span>${l.status}</div></td>
-      <td class="c-ansv"><div class="av-chip"><div class="av">${esc(ini||'?')}</div><span class="av-name">${esc((l.ansvarlig||'').split(' ')[0]||'—')}</span></div></td>
+      <td class="c-status">
+        <div class="st-btn" style="color:${s.c};background:${s.bg};border-color:${s.bd}" onclick="cycleStatus(${l.id},event)">
+          <span class="st-dot" style="background:${s.dot}"></span>${l.status}
+        </div>
+      </td>
+      <td class="c-ansv">
+        <div class="av-chip">
+          <div class="av">${esc(ini||'?')}</div>
+          <span class="av-name">${esc((l.ansvarlig||'').split(' ')[0]||'—')}</span>
+        </div>
+      </td>
       <td class="c-dato">${esc(l.dato||'—')}</td>
       <td class="c-act"><button class="del-btn" onclick="deleteLead(${l.id},event)" title="Slett">×</button></td>
     </tr>`;
+
     const exp=isExp?`<tr class="exp-row"><td colspan="12"><div class="exp-inner">
-      <div class="exp-block" style="min-width:160px"><div class="exp-lbl">Fullt navn</div><div class="exp-val">${esc(l.navn||'—')}</div></div>
-      ${l.eiendom?`<div class="exp-block" style="min-width:180px"><div class="exp-lbl">Eiendom</div><div class="exp-val">${esc(l.eiendom)}</div></div>`:''}
+      <div class="exp-block" style="min-width:150px"><div class="exp-lbl">Fullt navn</div><div class="exp-val">${esc(l.navn||'—')}</div></div>
+      ${l.eiendom?`<div class="exp-block" style="min-width:170px"><div class="exp-lbl">Eiendom</div><div class="exp-val">${esc(l.eiendom)}</div></div>`:''}
       ${l.areal?`<div class="exp-block"><div class="exp-lbl">Ønsket areal</div><div class="exp-val mono">${esc(l.areal)}</div></div>`:''}
-      ${l.telefon?`<div class="exp-block"><div class="exp-lbl">Telefon</div><div class="exp-val mono"><a href="tel:${esc(l.telefon)}">${esc(l.telefon)}</a></div></div>`:''}
-      ${l.epost?`<div class="exp-block" style="min-width:200px"><div class="exp-lbl">E-post</div><div class="exp-val mono"><a href="mailto:${esc(l.epost)}">${esc(l.epost)}</a></div></div>`:''}
-      ${l.melding?`<div class="exp-block" style="flex:2;min-width:220px"><div class="exp-lbl">Henvendelse</div><div class="exp-val">${esc(l.melding)}</div></div>`:''}
-      <div class="exp-block" style="min-width:160px"><div class="exp-lbl">Ansvarlig</div><div class="exp-val">${esc(l.ansvarlig||'—')}</div></div>
+      ${l.telefon?`<div class="exp-block"><div class="exp-lbl">Telefon</div><div class="exp-val mono"><a href="tel:${esc(l.telefon)}" onclick="event.stopPropagation()">${esc(l.telefon)}</a></div></div>`:''}
+      ${l.epost?`<div class="exp-block" style="min-width:190px"><div class="exp-lbl">E-post</div><div class="exp-val mono"><a href="mailto:${esc(l.epost)}" onclick="event.stopPropagation()">${esc(l.epost)}</a></div></div>`:''}
+      ${l.melding?`<div class="exp-block" style="flex:2;min-width:210px"><div class="exp-lbl">Henvendelse</div><div class="exp-val">${esc(l.melding)}</div></div>`:''}
+      <div class="exp-block" style="min-width:150px"><div class="exp-lbl">Ansvarlig</div><div class="exp-val">${esc(l.ansvarlig||'—')}</div></div>
       <div class="exp-block"><div class="exp-lbl">Registrert</div><div class="exp-val mono">${esc(l.dato||'—')}</div></div>
-      <div class="exp-block" style="flex:2;min-width:280px"><div class="exp-lbl">Oppdater status</div><div class="exp-sts">
-        ${STATUSES.map(ss=>{const sc=SC[ss];return`<div class="exp-st ${l.status===ss?'sel':''}" style="color:${sc.c};background:${sc.bg};border-color:${sc.bd}" onclick="setStatus(${l.id},'${ss}',event)"><span class="st-dot" style="background:${sc.dot}"></span>${ss}</div>`;}).join('')}
-      </div></div>
-      <div class="exp-block" style="margin-left:auto;justify-content:flex-end"><button class="exp-del-btn" onclick="deleteLead(${l.id},event)">Slett lead</button></div>
+      <div class="exp-notes-wrap" onclick="event.stopPropagation()">
+        <div class="exp-lbl" style="margin-bottom:4px">Internt notat</div>
+        <textarea class="exp-notes" id="note-${l.id}" placeholder="Notater, oppfølging, kommentarer…" rows="2">${esc(l.notat||'')}</textarea>
+        <button class="exp-notes-save" id="nsave-${l.id}" onclick="saveNote(${l.id},event)">Lagre</button>
+      </div>
+      <div class="exp-block" style="flex:2;min-width:270px">
+        <div class="exp-lbl">Oppdater status</div>
+        <div class="exp-sts">
+          ${STATUSES.map(ss=>{const sc=SC[ss];return`<div class="exp-st ${l.status===ss?'sel':''}" style="color:${sc.c};background:${sc.bg};border-color:${sc.bd}" onclick="setStatus(${l.id},'${ss}',event)"><span class="st-dot" style="background:${sc.dot}"></span>${ss}</div>`;}).join('')}
+        </div>
+      </div>
+      <div class="exp-block" style="margin-left:auto;justify-content:flex-end;align-self:flex-end">
+        <button class="exp-del-btn" onclick="deleteLead(${l.id},event)">Slett lead</button>
+      </div>
     </div></td></tr>`:' ';
+
     return main+exp;
   }).join('');
 }
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
