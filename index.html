@@ -155,6 +155,8 @@ td:last-child{border-right:none}
     <div class="pw-rule"></div>
     <div class="pw-lbl">Passord</div>
     <input class="pw-in" type="password" id="pw-in" placeholder="Tilgangspassord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <div class="pw-lbl" style="margin-top:4px">Anthropic API-nøkkel</div>
+    <input class="pw-in" type="password" id="api-in" placeholder="sk-ant-api03-…" autocomplete="off" onkeydown="if(event.key==='Enter')tryLogin()"/>
     <button class="pw-btn" onclick="tryLogin()">Logg inn</button>
     <div class="pw-err" id="pw-err"></div>
     <div class="pw-note">Kun for autorisert ORO-personell</div>
@@ -239,11 +241,13 @@ const SC={
 };
 let leads=[],filterStatus="Alle";
 const expanded=new Set();
-const API_KEY="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";
 function tryLogin(){
   const pw=document.getElementById('pw-in').value;
+  const ak=document.getElementById('api-in').value.trim();
   const err=document.getElementById('pw-err');
+  if(!ak){flashErr(err,"API-nøkkel mangler");return;}
   if(pw!==PW){flashErr(err,"Feil passord");document.getElementById('pw-in').value='';return;}
+  localStorage.setItem('oro-ak',ak);
   sessionStorage.setItem('oro-sess','1');
   document.getElementById('pw').style.display='none';
   document.getElementById('app').classList.add('on');
@@ -273,7 +277,7 @@ async function addLead(){
   try{
     const resp=await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{"Content-Type":"application/json","x-api-key":API_KEY,
+      headers:{"Content-Type":"application/json","x-api-key":localStorage.getItem('oro-ak')||'',
         "anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({
         model:"claude-sonnet-4-20250514",max_tokens:900,
@@ -293,7 +297,7 @@ async function addLead(){
     btn.disabled=true;
     render(lead.id);
   }catch(e){
-    document.getElementById('add-err').textContent='Feil — prøv igjen';
+    document.getElementById('add-err').textContent='Feil — sjekk API-nøkkel og prøv igjen';
     btn.disabled=false;
   }
   btn.innerHTML='Legg til lead';
