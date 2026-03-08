@@ -1,381 +1,365 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ORO Leads</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --oro-dark:   #1C3D3A;
-      --oro-mid:    #2C5F5A;
-      --oro-light:  #E8F0EF;
-      --oro-accent: #3A7A73;
-      --border:     #D4DFDE;
-      --text:       #1C3D3A;
-      --text-soft:  #6B8C89;
-      --text-muted: #9FBFBB;a<!DOCTYPE html>
-<html lang="no">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>test</title>
-</head>
-<body>test</body>
-</html>
-      --bg:         #F7F9F9;
-      --white:      #FFFFFF;
-    }
-
-    body { background: var(--bg); color: var(--text); font-family: 'Source Sans 3', sans-serif; min-height: 100vh; }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    /* PASSWORD */
-    #pw-screen {
-      position: fixed; inset: 0; background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999; flex-direction: column; gap: 28px;
-    }
-    .pw-logo { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--oro-dark); letter-spacing: -0.02em; }
-    .pw-sub  { font-size: 11px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-top: -20px; }
-    #pw-screen input {
-      border: 1px solid var(--border); border-radius: 4px;
-      padding: 12px 20px; font-size: 14px; font-family: 'Source Sans 3', sans-serif;
-      outline: none; text-align: center; width: 280px; color: var(--text);
-      background: var(--white); letter-spacing: 0.15em;
-    }
-    #pw-screen input:focus { border-color: var(--oro-accent); }
-    #pw-screen button {
-      background: var(--oro-dark); color: #fff; border: none; border-radius: 4px;
-      padding: 12px 0; font-size: 13px; font-family: 'Source Sans 3', sans-serif;
-      font-weight: 500; cursor: pointer; width: 280px; letter-spacing: 0.08em;
-      transition: background 0.2s;
-    }
-    #pw-screen button:hover { background: var(--oro-mid); }
-    .pw-error { color: #C0392B; font-size: 12px; display: none; }
-    .pw-note  { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; }
-    .pw-divider { width: 280px; border: none; border-top: 1px solid var(--border); margin: 4px 0; }
-    .pw-api-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; align-self: flex-start; margin-left: 1px; }
-
-    #app { display: none; }
-    #app.visible { display: block; }
-
-    /* HEADER */
-    .header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .logo-wrap { display: flex; align-items: center; gap: 16px; }
-    .logo      { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--oro-dark); letter-spacing: -0.01em; }
-    .logo-divider { width: 1px; height: 20px; background: var(--border); }
-    .logo-sub  { font-size: 11px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; }
-    .header-right { display: flex; align-items: center; gap: 10px; }
-    .lead-count-badge {
-      background: var(--oro-light); color: var(--oro-dark);
-      border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 500;
-    }
-
-    /* PASTE ZONE */
-    .paste-zone {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 20px 40px;
-    }
-    .paste-inner {
-      max-width: 900px;
-      display: flex; gap: 14px; align-items: flex-end;
-    }
-    .paste-field-wrap {
-      flex: 1;
-      border: 1px solid var(--border); border-radius: 4px;
-      background: var(--bg); transition: border-color 0.2s;
-      overflow: hidden;
-    }
-    .paste-field-wrap:focus-within { border-color: var(--oro-accent); background: var(--white); }
-    .paste-label-inner {
-      padding: 8px 14px 0;
-      font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase;
-    }
-    #paste-input {
-      width: 100%; background: transparent; border: none; outline: none;
-      color: var(--text); font-size: 13px; font-family: 'Source Sans 3', sans-serif;
-      line-height: 1.6; resize: none; padding: 4px 14px 10px;
-      min-height: 44px; max-height: 140px; overflow-y: auto;
-    }
-    #paste-input::placeholder { color: var(--text-muted); }
-    .paste-controls { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-    .ansvarlig-select {
-      border: 1px solid var(--border); border-radius: 4px;
-      padding: 7px 10px; font-size: 12px; font-family: 'Source Sans 3', sans-serif;
-      color: var(--text-soft); background: var(--white); outline: none; cursor: pointer;
-      min-width: 160px;
-    }
-    .parse-btn {
-      background: var(--oro-dark); color: #fff; border: none; border-radius: 4px;
-      padding: 9px 22px; font-size: 13px; font-weight: 500; cursor: pointer;
-      transition: background 0.2s; white-space: nowrap; min-width: 160px;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .parse-btn:hover:not(:disabled) { background: var(--oro-mid); }
-    .parse-btn:disabled { opacity: 0.4; cursor: default; }
-    .parse-error { font-size: 11px; color: #C0392B; text-align: right; min-height: 14px; }
-
-    /* MAIN */
-    .main { padding: 28px 40px; max-width: 940px; }
-
-    /* FILTERS */
-    .filters { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
-    .filter-btn {
-      border: 1px solid var(--border); border-radius: 3px;
-      padding: 5px 14px; font-size: 12px; font-family: 'Source Sans 3', sans-serif;
-      cursor: pointer; transition: all 0.15s; background: var(--white); color: var(--text-soft);
-      letter-spacing: 0.02em;
-    }
-    .filter-btn:hover { border-color: var(--oro-accent); color: var(--oro-dark); }
-
-    /* CARDS */
-    .lead-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 4px; padding: 20px 24px; margin-bottom: 8px;
-      transition: box-shadow 0.2s, border-color 0.2s;
-    }
-    .lead-card:hover { box-shadow: 0 2px 12px rgba(28,61,58,0.08); border-color: #BDD0CE; }
-    .card-top  { display: flex; justify-content: space-between; align-items: flex-start; }
-    .card-left { flex: 1; }
-    .card-right{ display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin-left: 16px; }
-    .card-name-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap; }
-    .card-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--oro-dark); font-weight: 600; }
-    .source-badge {
-      border-radius: 2px; padding: 2px 8px; font-size: 10px;
-      letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
-    }
-    .card-sub  { font-size: 13px; color: var(--text-soft); margin-bottom: 8px; }
-    .card-meta { display: flex; gap: 18px; flex-wrap: wrap; }
-    .card-meta span { font-size: 12px; color: var(--text-soft); }
-    .card-date { font-size: 11px; color: var(--text-muted); }
-    .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--bg); }
-    .card-ansvarlig { font-size: 12px; color: var(--text-muted); }
-    .card-actions { display: flex; gap: 12px; }
-    .btn-slett { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px; transition: color 0.15s; font-family: 'Source Sans 3', sans-serif; }
-    .btn-slett:hover { color: #C0392B; }
-    .melding-box {
-      margin-top: 12px; padding: 12px 16px;
-      background: var(--bg); border-radius: 3px;
-      border-left: 2px solid var(--border);
-      font-size: 13px; color: var(--text-soft); line-height: 1.6;
-      overflow: hidden; transition: max-height 0.3s ease; cursor: pointer;
-    }
-    .status-btn {
-      border-radius: 3px; padding: 4px 12px; font-size: 11px;
-      font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-      cursor: pointer; display: flex; align-items: center; gap: 5px;
-      transition: all 0.15s; border: 1px solid transparent;
-      font-family: 'Source Sans 3', sans-serif;
-    }
-    .status-dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
-
-    /* EMPTY */
-    .empty-state { text-align: center; padding: 70px 0; }
-    .empty-icon  { font-size: 32px; margin-bottom: 14px; color: var(--border); }
-    .empty-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text-soft); margin-bottom: 6px; }
-    .empty-sub   { font-size: 13px; color: var(--text-muted); }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner { width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ORO — Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#14100B;--ink-2:#5C4F44;--ink-3:#9E8E82;
+  --gold:#A07840;--gold-lt:#C9A96E;--gold-pale:#F5EED9;
+  --cream:#FAFAF7;--parch:#F3EDE2;--parch-dk:#EAE0D1;
+  --border:#DDD5C8;--border-dk:#C2B8AC;--white:#FFFFFF;
+  --shadow:0 1px 3px rgba(20,16,11,.07),0 4px 16px rgba(20,16,11,.05);
+  --shadow-lg:0 8px 32px rgba(20,16,11,.12),0 2px 8px rgba(20,16,11,.06);
+}
+html{font-size:13px;-webkit-font-smoothing:antialiased}
+body{background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--border-dk);border-radius:3px}
+::-webkit-scrollbar-track{background:transparent}
+a{color:inherit;text-decoration:none}
+#pw{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:var(--ink)}
+.pw-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,#2A1F14 0%,var(--ink) 70%)}
+.pw-card{position:relative;z-index:1;width:360px;padding:56px 48px 48px;background:var(--white);display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow-lg)}
+.pw-oro{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;letter-spacing:.16em;color:var(--ink);line-height:1;margin-bottom:6px}
+.pw-sub{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--ink-3);margin-bottom:46px}
+.pw-rule{width:36px;height:1px;background:var(--gold);margin-bottom:40px;flex-shrink:0}
+.pw-lbl{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;align-self:flex-start;width:100%}
+.pw-in{width:100%;border:1px solid var(--border);background:var(--cream);padding:11px 14px;font-size:13px;font-family:'DM Mono',monospace;color:var(--ink);outline:none;letter-spacing:.06em;margin-bottom:12px;transition:border-color .2s}
+.pw-in:focus{border-color:var(--gold);background:var(--white)}
+.pw-in::placeholder{color:var(--ink-3);font-style:italic;letter-spacing:.02em}
+.pw-btn{width:100%;background:var(--ink);color:var(--white);border:none;padding:13px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;transition:background .2s;margin-top:6px}
+.pw-btn:hover{background:#2A231B}
+.pw-err{font-size:10.5px;color:#B33;margin-top:9px;min-height:14px;font-family:'DM Mono',monospace;text-align:center}
+.pw-note{font-size:9.5px;color:var(--ink-3);margin-top:28px;letter-spacing:.08em;text-align:center}
+#app{display:none;flex-direction:column;min-height:100vh}
+#app.on{display:flex}
+.topbar{background:var(--ink);height:54px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;flex-shrink:0}
+.tb-brand{display:flex;align-items:baseline;gap:14px}
+.tb-oro{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;letter-spacing:.16em;color:var(--white);line-height:1}
+.tb-sep{color:var(--gold);opacity:.5;font-weight:300;margin:0 2px}
+.tb-mod{font-size:8.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-lt);font-weight:400}
+.tb-stats{display:flex;align-items:center;gap:4px}
+.tb-stat{display:flex;flex-direction:column;align-items:flex-end;padding:0 14px}
+.tb-stat-n{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold-lt);line-height:1}
+.tb-stat-l{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:#5C4F3A;margin-top:1px}
+.tb-vr{width:1px;height:28px;background:#2A231B}
+.gold-strip{height:2px;background:linear-gradient(90deg,transparent 0%,var(--gold) 30%,var(--gold-lt) 60%,transparent 100%);opacity:.35;flex-shrink:0}
+.pipeline{background:var(--parch);border-bottom:1px solid var(--border);padding:14px 32px 16px;flex-shrink:0}
+.pl-row{display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.pl-lbl{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.pl-bar{flex:1;height:5px;display:flex;gap:3px;overflow:hidden}
+.pl-seg{height:100%;transition:flex .5s ease;min-width:3px}
+.pl-pills{display:flex;gap:5px;flex-wrap:wrap}
+.ppill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 9px;border:1px solid var(--border);font-size:10.5px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none}
+.ppill .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.ppill .n{font-family:'DM Mono',monospace;font-size:9.5px;opacity:.65;margin-left:2px}
+.addbar{background:var(--white);border-bottom:1px solid var(--border);padding:14px 32px;flex-shrink:0}
+.addbar-inner{display:flex;gap:12px;align-items:flex-end}
+.paste-wrap{flex:1;position:relative;border:1px solid var(--border);background:var(--cream);transition:border-color .2s,background .2s}
+.paste-wrap:focus-within{border-color:var(--gold);background:var(--white)}
+.paste-lbl{position:absolute;top:9px;left:12px;font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);pointer-events:none;z-index:1}
+#paste-input{width:100%;background:transparent;border:none;outline:none;color:var(--ink);font-size:12px;font-family:'DM Mono',monospace;line-height:1.6;resize:none;padding:24px 12px 9px;min-height:50px;max-height:110px;overflow-y:auto;display:block}
+#paste-input::placeholder{color:var(--ink-3);font-style:italic}
+.addbar-ctrl{display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:176px}
+.sel{border:1px solid var(--border);background:var(--cream);padding:9px 10px;font-size:12px;font-family:'Outfit',sans-serif;color:var(--ink-2);outline:none;cursor:pointer;width:100%;transition:border-color .2s}
+.sel:focus{border-color:var(--gold)}
+.add-btn{background:var(--ink);color:var(--white);border:none;padding:10px 18px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s}
+.add-btn:hover:not(:disabled){background:#2A231B}
+.add-btn:disabled{opacity:.32;cursor:default}
+.add-err{font-size:10px;color:#B33;font-family:'DM Mono',monospace;min-height:12px;text-align:right}
+.filterbar{background:var(--parch);border-bottom:1px solid var(--border);padding:8px 32px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.srch-wrap{position:relative;display:flex;align-items:center}
+.srch-ico{position:absolute;left:9px;width:13px;height:13px;color:var(--ink-3);pointer-events:none}
+.srch-in{border:1px solid var(--border);background:var(--cream);padding:6px 10px 6px 30px;font-size:12px;font-family:'Outfit',sans-serif;color:var(--ink);outline:none;width:220px;transition:all .2s}
+.srch-in:focus{border-color:var(--gold);background:var(--white);width:260px}
+.srch-in::placeholder{color:var(--ink-3)}
+.fb-sep{width:1px;height:18px;background:var(--border)}
+.fb-lbl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.sort-sel{border:1px solid var(--border);background:var(--cream);padding:5px 8px;font-size:11.5px;font-family:'Outfit',sans-serif;color:var(--ink-2);outline:none;cursor:pointer}
+.sort-sel:focus{border-color:var(--gold)}
+.fb-count{font-size:10.5px;color:var(--ink-3);font-family:'DM Mono',monospace;margin-left:auto}
+.table-wrap{flex:1;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1140px}
+thead th{background:var(--parch-dk);border-bottom:2px solid var(--border-dk);border-right:1px solid var(--border);padding:9px 13px;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:500;font-family:'Outfit',sans-serif;white-space:nowrap;position:sticky;top:54px;cursor:pointer;user-select:none;transition:color .15s,background .15s;z-index:10}
+thead th:last-child{border-right:none}
+thead th:hover{color:var(--ink);background:#E5DDD0}
+thead th.nosort{cursor:default}
+thead th.nosort:hover{color:var(--ink-3);background:var(--parch-dk)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+tbody tr:hover{background:#F6F0E7}
+tbody tr.exp-parent{background:#EEE6D8}
+tbody tr.row-new{animation:rowIn .3s ease}
+@keyframes rowIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+td{padding:10px 13px;vertical-align:middle;border-right:1px solid var(--border);font-size:12.5px;color:var(--ink);line-height:1.35}
+td:last-child{border-right:none}
+.c-nr{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--ink-3);text-align:right;width:36px;padding-right:10px}
+.c-navn{min-width:148px;font-weight:500}
+.c-kilde{width:94px}
+.c-eiendom{min-width:160px;color:var(--ink-2);font-size:12px}
+.c-areal{width:90px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-2)}
+.c-tlf{width:120px;font-family:'DM Mono',monospace;font-size:11px}
+.c-epost{min-width:180px;font-size:11.5px}
+.c-epost a{color:var(--ink-2);border-bottom:1px solid transparent;transition:border-color .15s}
+.c-epost a:hover{border-color:var(--border-dk)}
+.c-melding{min-width:200px;max-width:280px}
+.clip{font-size:11.5px;color:var(--ink-2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.clip.full{-webkit-line-clamp:unset}
+.c-status{width:112px}
+.c-ansv{width:136px}
+.c-dato{width:88px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-3)}
+.c-act{width:46px;text-align:center}
+.src-badge{display:inline-flex;align-items:center;padding:2px 8px;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border:1px solid;white-space:nowrap}
+.src-finn{color:#B83200;background:#FEF1EC;border-color:#F0A080}
+.src-ne{color:#1448A0;background:#EBF2FE;border-color:#90B4F0}
+.src-bek{color:#1C5830;background:#EBF6EE;border-color:#90C490}
+.src-ann{color:#5A4000;background:#FAF4E0;border-color:#D4C070}
+.st-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;font-family:'Outfit',sans-serif;width:100%;justify-content:center}
+.st-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.av-chip{display:flex;align-items:center;gap:7px}
+.av{width:22px;height:22px;border-radius:50%;background:var(--parch-dk);border:1px solid var(--border-dk);display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:600;color:var(--ink-2);flex-shrink:0}
+.av-name{font-size:11.5px;color:var(--ink-2)}
+.del-btn{background:none;border:none;color:var(--border-dk);cursor:pointer;font-size:15px;padding:2px 5px;transition:color .15s;line-height:1}
+.del-btn:hover{color:#C0392B}
+.exp-row td{background:#E8DFD0;border-top:none;padding:0}
+.exp-inner{padding:18px 28px 18px 46px;display:flex;gap:28px;flex-wrap:wrap;border-top:1px solid var(--border-dk)}
+.exp-block{display:flex;flex-direction:column;gap:4px}
+.exp-lbl{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3)}
+.exp-val{font-size:12.5px;color:var(--ink);line-height:1.5;max-width:320px}
+.exp-val.mono{font-family:'DM Mono',monospace;font-size:11.5px}
+.exp-val a{border-bottom:1px solid var(--border-dk)}
+.exp-val a:hover{color:var(--gold);border-color:var(--gold)}
+.exp-sts{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.exp-st{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;cursor:pointer;border:1px solid;transition:all .12s;opacity:.45}
+.exp-st:hover{opacity:.8}
+.exp-st.sel{opacity:1;box-shadow:0 1px 5px rgba(0,0,0,.1)}
+.exp-del-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;cursor:pointer;border:1px solid #C0392B;color:#C0392B;background:transparent;font-family:'Outfit',sans-serif;transition:all .15s}
+.exp-del-btn:hover{background:#C0392B;color:#fff}
+.empty-cell{text-align:center;padding:90px 20px!important;border-right:none!important}
+.e-glyph{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--border-dk);line-height:1;margin-bottom:14px}
+.e-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink-3);margin-bottom:7px}
+.e-hint{font-size:12px;color:var(--ink-3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:11px;height:11px;border:1.5px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .65s linear infinite;display:inline-block;flex-shrink:0}
+</style>
 </head>
 <body>
-
-<div id="pw-screen">
-  <div class="pw-logo">ORO</div>
-  <div class="pw-sub">Leads Dashboard</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-    <input type="password" id="pw-input" placeholder="Passord" onkeydown="if(event.key==='Enter')checkPw()" />
-    <p id="pw-error" class="pw-error">Feil passord – prøv igjen</p>
-    <hr class="pw-divider" />
-    <span class="pw-api-label">Anthropic API-nøkkel</span>
-    <input type="password" id="api-key-input" placeholder="sk-ant-..." style="width:280px;border:1px solid var(--border);border-radius:4px;padding:10px 14px;font-size:13px;font-family:'Source Sans 3',sans-serif;outline:none;color:var(--text);background:var(--white);letter-spacing:0.05em;" />
-    <p id="api-key-error" style="color:#C0392B;font-size:12px;display:none;">API-nøkkel mangler</p>
-    <button onclick="checkPw()">Logg inn</button>
+<div id="pw">
+  <div class="pw-bg"></div>
+  <div class="pw-card">
+    <div class="pw-oro">ORO</div>
+    <div class="pw-sub">Næringseiendom · Oslo</div>
+    <div class="pw-rule"></div>
+    <div class="pw-lbl">Passord</div>
+    <input class="pw-in" type="password" id="pw-in" placeholder="Tilgangspassord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()"/>
+    <button class="pw-btn" onclick="tryLogin()">Logg inn</button>
+    <div class="pw-err" id="pw-err"></div>
+    <div class="pw-note">Kun for autorisert ORO-personell</div>
   </div>
-  <p class="pw-note">Kun for ORO-ansatte</p>
 </div>
-
 <div id="app">
-  <div class="header">
-    <div class="logo-wrap">
-      <span class="logo">ORO</span>
-      <div class="logo-divider"></div>
-      <span class="logo-sub">Leads</span>
+  <div class="topbar">
+    <div class="tb-brand">
+      <span class="tb-oro">ORO</span>
+      <span class="tb-sep">|</span>
+      <span class="tb-mod">Lead Pipeline</span>
     </div>
-    <div class="header-right">
-      <span class="lead-count-badge" id="lead-count">0 leads</span>
+    <div class="tb-stats">
+      <div class="tb-stat"><span class="tb-stat-n" id="s-tot">0</span><span class="tb-stat-l">Totalt</span></div>
+      <div class="tb-vr"></div>
+      <div class="tb-stat"><span class="tb-stat-n" id="s-act">0</span><span class="tb-stat-l">Aktive</span></div>
+      <div class="tb-vr"></div>
+      <div class="tb-stat"><span class="tb-stat-n" id="s-won">0</span><span class="tb-stat-l">Vunnet</span></div>
+      <div class="tb-vr"></div>
+      <div class="tb-stat"><span class="tb-stat-n" id="s-new">0</span><span class="tb-stat-l">Nye (7d)</span></div>
     </div>
   </div>
-
-  <div class="paste-zone">
-    <div class="paste-inner">
-      <div class="paste-field-wrap">
-        <div class="paste-label-inner">Lim inn e-post fra FINN.no, NE.meet eller annen kilde</div>
-        <textarea id="paste-input" rows="2" placeholder="Kopier e-postteksten og lim inn her …"></textarea>
+  <div class="gold-strip"></div>
+  <div class="pipeline">
+    <div class="pl-row"><span class="pl-lbl">Salgspipeline</span><div class="pl-bar" id="pl-bar"></div></div>
+    <div class="pl-pills" id="pl-pills"></div>
+  </div>
+  <div class="addbar">
+    <div class="addbar-inner">
+      <div class="paste-wrap">
+        <span class="paste-lbl">Lim inn e-post fra FINN.no · NE.meet · eller annen kilde — AI analyserer automatisk</span>
+        <textarea id="paste-input" rows="2" placeholder="Kopier hele e-postteksten og lim inn her…"></textarea>
       </div>
-      <div class="paste-controls">
-        <select class="ansvarlig-select" id="ansvarlig-select">
-          <option>Edward Gundersen</option>
-          <option>Gunnar Vestby</option>
-          <option>Christoffer Oterholt</option>
-          <option>Jørgen Anker-Rasch</option>
-          <option>Alfred Hegnar</option>
-          <option>Mathias Brandt-Kjelsen</option>
-          <option>Nikolai Staubo</option>
-          <option>Anders Brustad-Nilsen</option>
-          <option>Kristian Bartnes</option>
-          <option>Anders Aasand</option>
+      <div class="addbar-ctrl">
+        <select class="sel" id="ansv-sel">
+          <option value="">— Velg ansvarlig —</option>
+          <option>Edward Gundersen</option><option>Gunnar Vestby</option><option>Christoffer Oterholt</option>
+          <option>Jørgen Anker-Rasch</option><option>Alfred Hegnar</option><option>Mathias Brandt-Kjelsen</option>
+          <option>Nikolai Staubo</option><option>Anders Brustad-Nilsen</option><option>Kristian Bartnes</option><option>Anders Aasand</option>
         </select>
-        <button class="parse-btn" id="parse-btn" onclick="parseEmail()" disabled>Legg til lead</button>
-        <div class="parse-error" id="parse-error"></div>
+        <button class="add-btn" id="add-btn" onclick="addLead()" disabled>Legg til lead</button>
+        <div class="add-err" id="add-err"></div>
       </div>
     </div>
   </div>
-
-  <div class="main">
-    <div class="filters" id="filters"></div>
-    <div id="lead-list"></div>
+  <div class="filterbar">
+    <div class="srch-wrap">
+      <svg class="srch-ico" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="srch-in" type="text" id="srch" placeholder="Søk i navn, eiendom, melding…" oninput="render()"/>
+    </div>
+    <div class="fb-sep"></div>
+    <span class="fb-lbl">Sorter:</span>
+    <select class="sort-sel" id="sort-sel" onchange="render()">
+      <option value="dato-desc">Nyeste først</option>
+      <option value="dato-asc">Eldste først</option>
+      <option value="navn-asc">Navn A–Å</option>
+      <option value="status-asc">Status</option>
+      <option value="ansvarlig-asc">Ansvarlig</option>
+    </select>
+    <span class="fb-count" id="fb-count"></span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th class="c-nr nosort">#</th><th>Kontakt</th><th>Kilde</th><th>Eiendom / Lokasjon</th>
+        <th>Ønsket areal</th><th>Telefon</th><th>E-post</th><th>Henvendelse</th>
+        <th>Status</th><th>Ansvarlig</th><th>Dato</th><th class="nosort"></th>
+      </tr></thead>
+      <tbody id="leads-body"></tbody>
+    </table>
   </div>
 </div>
-
 <script>
-const PASSORD     = "oro2024";
-const STORAGE_KEY = "oro-leads-v4";
-
-const STATUS_CONFIG = {
-  "Ny":        { color: "#1C6B60", bg: "#E6F3F1", dot: "#1C6B60", border: "#B2D8D3" },
-  "Kontaktet": { color: "#7A5A00", bg: "#FFF8E1", dot: "#C49A00", border: "#F0DC80" },
-  "I prosess": { color: "#5A2D82", bg: "#F3EEF9", dot: "#8B5CF6", border: "#C4A8E8" },
-  "Vunnet":    { color: "#1A5C2A", bg: "#E8F5EC", dot: "#27AE60", border: "#A3D4B0" },
-  "Tapt":      { color: "#7A2020", bg: "#FDECEA", dot: "#E74C3C", border: "#F0ABAB" },
+const PW="oro2024",SK="oro-leads-v6";
+const STATUSES=["Ny","Kontaktet","I prosess","Vunnet","Tapt"];
+const SC={
+  "Ny":       {c:"#1E4DAA",bg:"#EEF3FD",bd:"#ADC4F0",dot:"#3B82F6",seg:"#7BA8DC"},
+  "Kontaktet":{c:"#7A4E00",bg:"#FBF6E8",bd:"#E8CC80",dot:"#D4A017",seg:"#D4AA44"},
+  "I prosess":{c:"#52248A",bg:"#F6F1FD",bd:"#C8A8F0",dot:"#8B5CF6",seg:"#9A70C8"},
+  "Vunnet":   {c:"#135A24",bg:"#EBF7EE",bd:"#88C899",dot:"#22C55E",seg:"#4AAA70"},
+  "Tapt":     {c:"#8A1A1A",bg:"#FDF0EE",bd:"#ECA0A0",dot:"#EF4444",seg:"#C86060"}
 };
-const STATUSES = Object.keys(STATUS_CONFIG);
-let leads = [], activeFilter = "Alle";
-const expanded = new Set();
-
-function checkPw() {
-  const apiKey = document.getElementById('api-key-input').value.trim();
-  if (!apiKey) { document.getElementById('api-key-error').style.display='block'; return; }
-  if (document.getElementById('pw-input').value === PASSORD) {
-    localStorage.setItem('oro-api-key', apiKey);
-    document.getElementById('pw-screen').style.display = 'none';
-    document.getElementById('app').classList.add('visible');
-    sessionStorage.setItem('oro-auth', '1');
-    init();
-  } else {
-    document.getElementById('pw-error').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-  }
+let leads=[],filterStatus="Alle";
+const expanded=new Set();
+const API_KEY="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";
+function tryLogin(){
+  const pw=document.getElementById('pw-in').value;
+  const err=document.getElementById('pw-err');
+  if(pw!==PW){flashErr(err,"Feil passord");document.getElementById('pw-in').value='';return;}
+  sessionStorage.setItem('oro-sess','1');
+  document.getElementById('pw').style.display='none';
+  document.getElementById('app').classList.add('on');
+  boot();
 }
-if (sessionStorage.getItem('oro-auth') === '1') {
-  document.getElementById('pw-screen').style.display = 'none';
-  document.getElementById('app').classList.add('visible');
-  document.addEventListener('DOMContentLoaded', init);
+function flashErr(el,msg){el.textContent=msg;setTimeout(()=>el.textContent='',3500);}
+if(sessionStorage.getItem('oro-sess')==='1'){
+  document.getElementById('pw').style.display='none';
+  document.getElementById('app').classList.add('on');
+  document.addEventListener('DOMContentLoaded',boot);
 }
-
-function loadLeads() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; } }
-function saveLeads()  { localStorage.setItem(STORAGE_KEY, JSON.stringify(leads)); }
-
-function init() {
-  leads = loadLeads();
-  renderFilters(); renderLeads();
-  const input = document.getElementById('paste-input');
-  const btn   = document.getElementById('parse-btn');
-  input.addEventListener('input', () => {
-    btn.disabled = !input.value.trim();
-    document.getElementById('parse-error').textContent = '';
-  });
-  input.addEventListener('keydown', e => { if ((e.metaKey||e.ctrlKey) && e.key==='Enter') parseEmail(); });
+function boot(){
+  leads=JSON.parse(localStorage.getItem(SK)||'[]');
+  const ta=document.getElementById('paste-input'),btn=document.getElementById('add-btn');
+  ta.addEventListener('input',()=>{btn.disabled=!ta.value.trim();document.getElementById('add-err').textContent='';});
+  ta.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')addLead();});
+  render();
 }
-
-async function parseEmail() {
-  const text = document.getElementById('paste-input').value.trim();
-  if (!text) return;
-  const btn = document.getElementById('parse-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Analyserer…';
-  document.getElementById('parse-error').textContent = '';
-  try {
-    const res  = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": localStorage.getItem('oro-api-key') || '',
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514", max_tokens: 800,
-        system: `Du hjelper norske eiendomsmeglere \u00e5 strukturere leads fra e-post.\nSvar KUN med et JSON-objekt, ingen forklaring, ingen markdown:\n{"navn":"fullt navn","telefon":"nummer eller null","epost":"e-post eller null","kilde":"FINN.no eller NE.meet eller Bekjent eller Annet","eiendom":"adresse/navn eller null","areal":"f.eks 200-250m\u00b2 eller null","melding":"kort sammendrag"}`,
-        messages: [{ role: "user", content: text }]
+function save(){localStorage.setItem(SK,JSON.stringify(leads));}
+async function addLead(){
+  const text=document.getElementById('paste-input').value.trim();
+  if(!text)return;
+  const btn=document.getElementById('add-btn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>&nbsp;Analyserer…';
+  document.getElementById('add-err').textContent='';
+  try{
+    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-api-key":API_KEY,
+        "anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",max_tokens:900,
+        system:'Du hjelper norske næringseiendomsmeglere strukturere leads fra e-post.\nSvar KUN med et rent JSON-objekt: {"navn":"fullt navn","telefon":"nummer eller null","epost":"e-post eller null","kilde":"FINN.no|NE.meet|Bekjent|Annet","eiendom":"adresse/navn eller null","areal":"f.eks 150–250 m² eller null","melding":"sammendrag maks 130 tegn"}',
+        messages:[{role:"user",content:text}]
       })
     });
-    const data   = await res.json();
-    const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
-    leads = [{ ...parsed, id: Date.now(), status: "Ny",
-      ansvarlig: document.getElementById('ansvarlig-select').value,
-      dato: new Date().toLocaleDateString('nb-NO',{day:'2-digit',month:'short',year:'numeric'})
-    }, ...leads];
-    saveLeads();
-    document.getElementById('paste-input').value = '';
-    btn.disabled = true;
-    renderFilters(); renderLeads();
-  } catch(e) {
-    document.getElementById('parse-error').textContent = 'Noe gikk galt \u2013 pr\u00f8v igjen';
-    btn.disabled = false;
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error.message);
+    const parsed=JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());
+    const lead={...parsed,id:Date.now(),status:"Ny",
+      ansvarlig:document.getElementById('ansv-sel').value||null,
+      dato:new Date().toLocaleDateString('nb-NO',{day:'2-digit',month:'short',year:'numeric'}),
+      ts:Date.now()};
+    leads.unshift(lead);save();
+    document.getElementById('paste-input').value='';
+    btn.disabled=true;
+    render(lead.id);
+  }catch(e){
+    document.getElementById('add-err').textContent='Feil — prøv igjen';
+    btn.disabled=false;
   }
-  btn.innerHTML = 'Legg til lead';
+  btn.innerHTML='Legg til lead';
 }
-
-function nextStatus(id) {
-  leads = leads.map(l => l.id!==id ? l : {...l, status: STATUSES[(STATUSES.indexOf(l.status)+1)%STATUSES.length]});
-  saveLeads(); renderFilters(); renderLeads();
-}
-function deleteLead(id) { leads=leads.filter(l=>l.id!==id); saveLeads(); renderFilters(); renderLeads(); }
-function toggleMelding(id) { expanded.has(id)?expanded.delete(id):expanded.add(id); renderLeads(); }
-
-function renderFilters() {
-  const counts = {};
-  STATUSES.forEach(s => counts[s]=leads.filter(l=>l.status===s).length);
-  document.getElementById('filters').innerHTML = ['Alle',...STATUSES].map(s => {
-    const cfg=STATUS_CONFIG[s], count=s==='Alle'?leads.length:(counts[s]||0), active=activeFilter===s;
-    let style='';
-    if (active && cfg) style=`background:${cfg.bg};border-color:${cfg.border};color:${cfg.color};font-weight:600`;
-    else if (active)   style=`background:var(--oro-light);border-color:var(--oro-accent);color:var(--oro-dark);font-weight:600`;
-    return `<button class="filter-btn" style="${style}" onclick="setFilter('${s}')">${s} &middot; ${count}</button>`;
+function cycleStatus(id,e){e.stopPropagation();leads=leads.map(l=>l.id!==id?l:{...l,status:STATUSES[(STATUSES.indexOf(l.status)+1)%STATUSES.length]});save();render();}
+function setStatus(id,s,e){e&&e.stopPropagation();leads=leads.map(l=>l.id!==id?l:{...l,status:s});save();render();}
+function deleteLead(id,e){e&&e.stopPropagation();if(!confirm('Slette dette leadet?'))return;leads=leads.filter(l=>l.id!==id);expanded.delete(id);save();render();}
+function toggleRow(id){expanded.has(id)?expanded.delete(id):expanded.add(id);render();}
+function setFilter(f){filterStatus=f;render();}
+function render(newId){
+  const total=leads.length,active=leads.filter(l=>l.status!=='Vunnet'&&l.status!=='Tapt').length,won=leads.filter(l=>l.status==='Vunnet').length,week=leads.filter(l=>(l.ts||0)>Date.now()-7*86400000).length;
+  document.getElementById('s-tot').textContent=total;document.getElementById('s-act').textContent=active;document.getElementById('s-won').textContent=won;document.getElementById('s-new').textContent=week;
+  const counts={};STATUSES.forEach(s=>counts[s]=leads.filter(l=>l.status===s).length);
+  document.getElementById('pl-bar').innerHTML=STATUSES.map(s=>`<div class="pl-seg" style="flex:${counts[s]||.2};background:${SC[s].seg}"></div>`).join('');
+  const all=['Alle',...STATUSES];
+  document.getElementById('pl-pills').innerHTML=all.map(s=>{
+    const cnt=s==='Alle'?total:(counts[s]||0),isAct=filterStatus===s;
+    const sty=s==='Alle'?(isAct?'background:var(--ink);color:var(--white);border-color:var(--ink)':'background:var(--parch);border-color:var(--border-dk);color:var(--ink-2)'):(isAct?`background:${SC[s].bg};border-color:${SC[s].bd};color:${SC[s].c}`:'background:var(--parch);border-color:var(--border);color:var(--ink-3)');
+    const dot=s!=='Alle'?`<span class="dot" style="background:${SC[s].dot}"></span>`:'';
+    return `<div class="ppill" style="${sty}" onclick="setFilter('${s}')">${dot}${s}<span class="n">${cnt}</span></div>`;
   }).join('');
-  document.getElementById('lead-count').textContent = leads.length + (leads.length===1?' lead':' leads');
-}
-function setFilter(s) { activeFilter=s; renderFilters(); renderLeads(); }
-
-function renderLeads() {
-  const filtered = activeFilter==='Alle' ? leads : leads.filter(l=>l.status===activeFilter);
-  const container = document.getElementById('lead-list');
-  if (!filtered.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">\u25c7</div><div class="empty-title">Ingen leads registrert</div><div class="empty-sub">Lim inn en e-post fra FINN.no eller NE.meet for \u00e5 komme i gang</div></div>`;
-    return;
-  }
-  container.innerHTML = filtered.map(lead => {
-    const cfg = STATUS_CONFIG[lead.status]||STATUS_CONFIG['Ny'];
-    const kildeColor = lead.kilde==='FINN.no'?'#D44000':lead.kilde==='NE.meet'?'#1A5CAA':'#1A5C2A';
-    const kildeBg    = lead.kilde==='FINN.no'?'#FEF0EA':lead.kilde==='NE.meet'?'#EAF1FB':'#EAF5EC';
-    const kildeBorder= lead.kilde==='FINN.no'?'#F0B090':lead.kilde==='NE.meet'?'#90B8F0':'#90C8A0';
-    const isExp = expanded.has(lead.id);
-    return `<div class="lead-card"><div class="card-top"><div class="card-left"><div class="card-name-row"><span class="card-name">${lead.navn||'Ukjent'}</span><span class="source-badge" style="color:${kildeColor};background:${kildeBg};border:1px solid ${kildeBorder}">${lead.kilde||''}</span></div><div class="card-sub">${lead.eiendom||lead.areal||'\u2014'}</div><div class="card-meta">${lead.telefon?`<span>\ud83d\udcde ${lead.telefon}</span>`:''}${lead.epost?`<span>\u2709 ${lead.epost}</span>`:''}${lead.areal&&lead.eiendom?`<span>\ud83d\udcd0 ${lead.areal}</span>`:''}</div></div><div class="card-right"><button class="status-btn" style="background:${cfg.bg};color:${cfg.color};border-color:${cfg.border}" onclick="nextStatus(${lead.id})"><span class="status-dot" style="background:${cfg.dot}"></span>${lead.status}</button><span class="card-date">${lead.dato}</span></div></div>${lead.melding?`<div class="melding-box" style="max-height:${isExp?'200px':'42px'}" onclick="toggleMelding(${lead.id})">${lead.melding}</div>`:''}<div class="card-bottom"><span class="card-ansvarlig">Ansvarlig: ${lead.ansvarlig||'\u2014'}</span><div class="card-actions"><button class="btn-slett" onclick="deleteLead(${lead.id})">Slett</button></div></div></div>`;
+  const q=(document.getElementById('srch')?.value||'').toLowerCase().trim();
+  const sv=document.getElementById('sort-sel')?.value||'dato-desc';
+  let rows=filterStatus==='Alle'?[...leads]:leads.filter(l=>l.status===filterStatus);
+  if(q)rows=rows.filter(l=>(l.navn||'').toLowerCase().includes(q)||(l.eiendom||'').toLowerCase().includes(q)||(l.melding||'').toLowerCase().includes(q)||(l.epost||'').toLowerCase().includes(q)||(l.ansvarlig||'').toLowerCase().includes(q));
+  const[col,dir]=sv.split('-');const d=dir==='asc'?1:-1;
+  rows.sort((a,b)=>{const av=col==='dato'?(a.ts||0):(a[col]||''),bv=col==='dato'?(b.ts||0):(b[col]||'');return av<bv?-d:av>bv?d:0;});
+  document.getElementById('fb-count').textContent=rows.length!==total?`${rows.length} av ${total} leads`:`${total} leads`;
+  const tbody=document.getElementById('leads-body');
+  if(!rows.length){tbody.innerHTML=`<tr><td colspan="12" class="empty-cell"><div class="e-glyph">◈</div><div class="e-title">Ingen leads å vise</div><div class="e-hint">Lim inn en e-post fra FINN.no eller NE.meet ovenfor</div></td></tr>`;return;}
+  tbody.innerHTML=rows.map((l,i)=>{
+    const s=SC[l.status]||SC['Ny'];
+    const src={'FINN.no':'src-finn','NE.meet':'src-ne','Bekjent':'src-bek'}[l.kilde]||'src-ann';
+    const isExp=expanded.has(l.id),ini=(l.ansvarlig||'').split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+    const main=`<tr class="${isExp?'exp-parent':''} ${l.id===newId?'row-new':''}" onclick="toggleRow(${l.id})">
+      <td class="c-nr">${i+1}</td>
+      <td class="c-navn">${esc(l.navn||'Ukjent')}</td>
+      <td class="c-kilde"><span class="src-badge ${src}">${esc(l.kilde||'—')}</span></td>
+      <td class="c-eiendom">${esc(l.eiendom||'—')}</td>
+      <td class="c-areal">${esc(l.areal||'—')}</td>
+      <td class="c-tlf">${esc(l.telefon||'—')}</td>
+      <td class="c-epost">${l.epost?`<a href="mailto:${esc(l.epost)}" onclick="event.stopPropagation()">${esc(l.epost)}</a>`:'—'}</td>
+      <td class="c-melding"><div class="clip ${isExp?'full':''}">${esc(l.melding||'—')}</div></td>
+      <td class="c-status"><div class="st-btn" style="color:${s.c};background:${s.bg};border-color:${s.bd}" onclick="cycleStatus(${l.id},event)"><span class="st-dot" style="background:${s.dot}"></span>${l.status}</div></td>
+      <td class="c-ansv"><div class="av-chip"><div class="av">${esc(ini||'?')}</div><span class="av-name">${esc((l.ansvarlig||'').split(' ')[0]||'—')}</span></div></td>
+      <td class="c-dato">${esc(l.dato||'—')}</td>
+      <td class="c-act"><button class="del-btn" onclick="deleteLead(${l.id},event)" title="Slett">×</button></td>
+    </tr>`;
+    const exp=isExp?`<tr class="exp-row"><td colspan="12"><div class="exp-inner">
+      <div class="exp-block" style="min-width:160px"><div class="exp-lbl">Fullt navn</div><div class="exp-val">${esc(l.navn||'—')}</div></div>
+      ${l.eiendom?`<div class="exp-block" style="min-width:180px"><div class="exp-lbl">Eiendom</div><div class="exp-val">${esc(l.eiendom)}</div></div>`:''}
+      ${l.areal?`<div class="exp-block"><div class="exp-lbl">Ønsket areal</div><div class="exp-val mono">${esc(l.areal)}</div></div>`:''}
+      ${l.telefon?`<div class="exp-block"><div class="exp-lbl">Telefon</div><div class="exp-val mono"><a href="tel:${esc(l.telefon)}">${esc(l.telefon)}</a></div></div>`:''}
+      ${l.epost?`<div class="exp-block" style="min-width:200px"><div class="exp-lbl">E-post</div><div class="exp-val mono"><a href="mailto:${esc(l.epost)}">${esc(l.epost)}</a></div></div>`:''}
+      ${l.melding?`<div class="exp-block" style="flex:2;min-width:220px"><div class="exp-lbl">Henvendelse</div><div class="exp-val">${esc(l.melding)}</div></div>`:''}
+      <div class="exp-block" style="min-width:160px"><div class="exp-lbl">Ansvarlig</div><div class="exp-val">${esc(l.ansvarlig||'—')}</div></div>
+      <div class="exp-block"><div class="exp-lbl">Registrert</div><div class="exp-val mono">${esc(l.dato||'—')}</div></div>
+      <div class="exp-block" style="flex:2;min-width:280px"><div class="exp-lbl">Oppdater status</div><div class="exp-sts">
+        ${STATUSES.map(ss=>{const sc=SC[ss];return`<div class="exp-st ${l.status===ss?'sel':''}" style="color:${sc.c};background:${sc.bg};border-color:${sc.bd}" onclick="setStatus(${l.id},'${ss}',event)"><span class="st-dot" style="background:${sc.dot}"></span>${ss}</div>`;}).join('')}
+      </div></div>
+      <div class="exp-block" style="margin-left:auto;justify-content:flex-end"><button class="exp-del-btn" onclick="deleteLead(${l.id},event)">Slett lead</button></div>
+    </div></td></tr>`:' ';
+    return main+exp;
   }).join('');
 }
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
